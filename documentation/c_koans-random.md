@@ -27,10 +27,12 @@
 7. [`about_strings.c`](#файл-about_stringsc)
 8. [`about_structs.c`](#файл-about_structsc)
 9. [`about_dataclasses.c`](#файл-about_dataclassesc)
-10. [`about_printing.c`](#файл-about_printingс)
+10. [`about_printing.c`](#файл-about_printingc)
 11. [`about_io.c`](#файл-about_ioc)
 12. [`about_linked_lists.c`](#файл-about_linked_listsc)
 13. [`about_preprocessor.c`](#файл-about_preprocessorc)
+
+## **[К Итогам](#итог)**
 
 ## Файл `about_basics.c`
 
@@ -142,7 +144,7 @@
     Знакомство с условным оператором `if`. Необходимо понять, какое значение примет переменная `var` по заданной конструкции.
     
     **Рандомизация:**
-    Значение чисел, которые определяют значение `var`.
+    Значения чисел, которые определяют значение `var`.
     
     **Участок кода:**
     
@@ -201,10 +203,10 @@
 + **Тест 1-3**
 
     **Описание:**
-    Циклы `while`, `for`, `do ..while`. Дан цикл, на каждом цикле которого происходит увеличение переменной `var`. Необходимо определить финальное значение перменной.
+    Циклы `while`, `for`, `do ..while`. Дан цикл, на каждой итерации которого происходит увеличение переменной `var`. Необходимо определить финальное значение перменной.
     
     **Рандомизация:**
-    Количетсво итерации цикла.
+    Количетсво итерации цикла, начальное значение `var`, условие остановки.
     
     **Участок кода:**
     
@@ -299,10 +301,10 @@
 + **Тест 1**
 
     **Описание:**
-    В начале кода определн прототип функции, после теста описана реализации функции. Необходимо определить, что вернет функция.
+    В начале кода определен прототип функции, после теста описана реализации функции. Необходимо определить, что вернет функция.
     
     **Рандомизация:**
-    Случайные арифметические операции в функции прототипе.
+    Случайные арифметические операции в функции прототипе и случайные значения, передаваемые в функцию.
     
     **Участок кода:**
     
@@ -332,6 +334,7 @@
     **Рандомизация:**
     Значения, которые прибавляются к переменной в ходе вызова функции.
     Возможно, рандомизация нескольких арифметических операции, не только сложения.
+
     **Участок кода:**
     
     ```c
@@ -781,7 +784,7 @@
     Новый способ задания массива. Необходимо опеределить значение по индексу.
     
     **Рандомизация:**
-    Начальный массив.
+    Начальный массив и индекс элемента.
     
     **Участок кода:**
     
@@ -898,7 +901,7 @@
 + **Тест 1-3**
 
     **Описание:**
-    Работа с индексами и арифметикой указателей на примере строки. Необхоидо исправить символы на правильные.
+    Работа с индексами и арифметикой указателей на примере строки. Необходимо исправить символы на правильные.
     
     **Рандомизация:**
     Рандомизация начальной строки и сдвига для получения символа.
@@ -981,7 +984,7 @@
 + **Тест 1**
 
     **Описание:**
-    Необходимо изменить строку так, чтобы она была равна значение strlen.
+    Необходимо изменить строку так, чтобы она была равна значению strlen.
     
     **Рандомизация:**
     Рандомизация входной строки.
@@ -1051,7 +1054,7 @@
 + **Тест 1-2**
 
     **Описание:**
-    Вычисление количество байт, занимаемое строкой.
+    Вычисление количества байт, занимаемое строкой.
     
     **Рандомизация:**
     Рандомизация входной строки.
@@ -1105,7 +1108,7 @@
     Необходимо определить заданные значения структуры и ее размер.
     
     **Рандомизация:**
-    Рандомизация начальной структуры.
+    Рандомизация начальной структуры и значений полей.
     
     **Участок кода:**
     
@@ -1171,7 +1174,7 @@
     Необходимо разобраться с более сложной струтурой и определить значения ее полей.
     
     **Рандомизация:**
-    Рандомизация начальных полей структуры.
+    Рандомизация начальных полей структуры и значений полей.
     
     **Участок кода:**
     
@@ -1200,6 +1203,13 @@
 
         return ret;
     }
+    struct person person1;
+
+    /* Examine this function in c_koans_helpers.c */
+    person1 = make_person("Brian", 5, 14, 1996);
+
+    cr_assert_str_eq(person1.name, "Brian", "What is the name of this person?");
+
     ```
 
 + **Тест 2**
@@ -1268,7 +1278,7 @@
     Необходимо определить размер массива структур, самой структуры с выравниванием и без.
     
     **Рандомизация:**
-    Рандомизация длины массива структуры и наполнение структур.
+    Рандомизация длины массива структур и наполнения структур.
     
     **Участок кода:**
     
@@ -1340,10 +1350,10 @@
 + **Тест 1-3**
 
     **Описание:**
-    Знакомство с `union`. Необходимо указать значения полей указанных полей.
+    Знакомство с `union`. Необходимо определить значения указанных полей.
     
     **Рандомизация:**
-    Рандомизация различных типов `union` и чисел полей.
+    Рандомизация различных типов `union` и значений полей.
     
     **Участок кода:**
     
@@ -1569,3 +1579,464 @@
 
 
 
+
+
+## Файл `about_io.c`
+
+### **Test streams**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо внести наименование различных потоков.
+    
+    **Рандомизация:**
+    Нечего.
+    
+    **Участок кода:**
+    
+    ```c
+    cr_assert_str_eq("stdin", "stdin", "The standard input stream is...");
+    cr_assert_str_eq("stdout", "stdout", "The standard output stream is...");
+    cr_assert_str_eq("stderr", "stderr",
+		     "The output stream for error messages is...");
+    ```
+
+
+### **Test using_streams**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Необходимо указать правильные потоки.
+    
+    **Рандомизация:**
+    Нечего.
+
+    **Участок кода:**
+    
+    ```c
+    fputs("Hello World", TODO_FP);
+    fputs("Hello World", TODO_FP);
+
+    cr_assert_file_contents_eq_str(stdout, "Hello World");
+    cr_assert_file_contents_eq_str(stderr, "Hello World");
+    ```
+
+
+### **Test file_io**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо указать, что написано в указанном файле.
+    
+    **Рандомизация:**
+    Рандомизация содержимого файла.
+
+    **Участок кода:**
+    
+    ```c
+    FILE *f;
+    char buf[1024];
+    f = fopen("rsrc/file.txt", "r");
+    fgets(buf, 1024, f);
+
+    cr_assert_str_eq(buf, TODO_S, "view rsrc/file.txt to see what buf should be");
+    ```
+
+### **Test buffered_io**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо указать необходимый поток и сообщение для вывода.
+    
+    **Рандомизация:**
+    Рандомизация потока вывода и сообщения для вывода.
+
+    **Участок кода:**
+    
+    ```c
+    fputs(TODO_S, TODO_FP);
+    fflush(stdout);
+    cr_assert_file_contents_eq_str(stdout, "foo");
+    ```
+
+
+
+## Файл `about_linked_lists.c`
+
+### **Test linked_list_basics**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Знакомство со связанным списком. Необходимо указать размер головы и значения некоторых элементов.
+    
+    **Рандомизация:**
+    Рандомизация значений узлов.
+    
+    **Участок кода:**
+    
+    ```c
+    struct linked_list {
+        int data;
+        struct linked_list *next;
+    };
+    struct linked_list head = { 10 };
+    struct linked_list list_node = { 12 };
+
+    head.next = &list_node;
+
+    cr_assert_eq(head.next, TODO, "What is the `next` value of head?");
+    cr_assert_eq(head.next->data, TODO, "What `data` does it hold?");
+    cr_assert_eq(sizeof(head), TODO, "How much memory does `head` occupy?");
+    ```
+
+
+### **Test traversing_linked_list**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Обход связанного списка. Необходимо определить значение указанного узла.
+
+    **Рандомизация:**
+    Рандомизация исходного связанного списка и его значений. <br>
+    Возможно, можно добавить полноценное участие итерации для тестов, просто тут их показали, но в тестах они не участвуют.    
+    **Участок кода:**
+    
+    ```c
+    struct linked_list {
+        int data;
+        struct linked_list *next;
+    };
+    struct linked_list nodes[5] = { { 1 }, { 2, &nodes[0] }, { 3, &nodes[1] },
+        { 4, &nodes[2] }, { 5, &nodes[3] } };
+    struct linked_list *temp_head = &nodes[4];
+
+    /* Traversing a linked list using a while loop. */
+    while (temp_head) {
+        /* Do some operations ... */
+        temp_head = temp_head->next;
+    }
+
+    /* Traversing a linked list using a for loop. */
+    for (struct linked_list *i = &nodes[4]; i; i = i->next) {
+        /* Do some operations ... */
+    }
+
+    cr_assert_eq(nodes[3].next, TODO, "What is nodes[3] pointing to?");
+    cr_assert_eq(nodes[3].next->data, TODO, "What is the data contained?");
+    ```
+
+### **Test insert_into_linked_list**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо определить значения связанного списка после добавления нового узла.
+
+    **Рандомизация:**
+    Рандомизация изначального связанного списка и значений нового узла.
+
+    **Участок кода:**
+    
+    ```c
+    struct linked_list *insert(struct linked_list *head, int val)
+    {
+        struct linked_list *new_node, *temp;
+
+        for (temp = head; temp && temp->next; temp = temp->next)
+            ;
+
+        new_node = malloc(sizeof(*new_node));
+        new_node->data = val;
+        new_node->next = NULL;
+
+        if (temp)
+            temp->next = new_node;
+
+        return new_node;
+    }
+    struct linked_list head = { 1 };
+
+    /*
+        It's nice to create functions to insert/delete from linked list.
+        Make sure to keep track of allocated memory.
+    */
+    struct linked_list *new_node = insert(&head, 2);
+
+    cr_assert_eq(new_node->next, TODO, "What is the new node pointing to?");
+    cr_assert_eq(head.next, TODO, "Where is head.next pointing to?");
+    cr_assert_eq(
+        head.next->data, TODO, "What data is stored in the node after `head`?");
+    ```
+
+
+### **Test delete_from_linked_list**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо определить значения связанного списка после удаления узла.
+
+    **Рандомизация:**
+    Рандомизация начальных значений связанного списка и удаляемого узла.
+
+    **Участок кода:**
+    
+    ```c
+    struct linked_list *delete (struct linked_list *head, int val)
+    {
+        struct linked_list *prev, *i;
+
+        prev = NULL;
+        i = head;
+        while (i && i->data != val) {
+            prev = i;
+            i = i->next;
+        }
+
+        if (prev && i)
+            prev->next = i->next;
+
+        return i;
+    }
+    struct linked_list nodes[5] = { { 1, NULL }, { 2, &nodes[0] },
+        { 3, &nodes[1] }, { 4, &nodes[2] }, { 5, &nodes[3] } };
+
+    /* Do something with removed node .. */
+    struct linked_list *deleted_node = delete (&nodes[4], 3);
+
+    cr_assert_eq(
+        deleted_node->next, TODO, "What was the deleted node pointing to?");
+    cr_assert_eq(nodes[3].next, TODO, "What is the next node after nodes[3]?");
+    cr_assert_eq(
+        nodes[3].next->data, TODO, "What data is contained in that node?");
+    ```
+
+
+
+### **Test helpful_pointers**
+---
++ **Тест 1-4**
+
+    **Описание:**
+    Необходимо определить значения головы и хвоста в связанном списке.
+
+    **Рандомизация:**
+    Рандомизация исходного связанного списка.
+
+    **Участок кода:**
+    
+    ```c
+    struct list_node {
+        int data;
+        struct list_node *next;
+    };
+
+    struct _linked_list {
+        struct list_node *head;
+        struct list_node *tail;
+    };
+
+    cr_assert_eq(
+        sizeof(struct _linked_list), TODO, "How much memory does it occupy?");
+
+    struct list_node nodes[5] = { { 5, NULL }, { 4, &nodes[0] },
+        { 3, &nodes[1] }, { 2, &nodes[2] }, { 1, &nodes[3] } };
+
+    struct _linked_list list = { &nodes[4], &nodes[0] };
+
+    cr_assert_eq(list.head, TODO, "Where is head pointing to?");
+    cr_assert_eq(
+        list.head->data, TODO, "What is the data contained in the head?");
+
+    cr_assert_eq(list.tail, TODO, "Where is tail pointing to?");
+    cr_assert_eq(
+        list.tail->data, TODO, "What is the data contained in the tail?");
+    ```
+
+
+### **Test doubly_linked_list**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо определить значения узлов двусвязного списка.
+
+    **Рандомизация:**
+    Рандомизация входного двусвязного списка и его значений.
+
+    **Участок кода:**
+    
+    ```c
+    struct dbl_linked_list {
+        int data;
+        struct dbl_linked_list *next;
+        struct dbl_linked_list *prev;
+    };
+
+    cr_assert_eq(sizeof(struct dbl_linked_list), TODO,
+        "How much memory does it occupy?");
+
+    struct dbl_linked_list n1 = { 1 }, n2 = { 2 }, n3 = { 3 };
+    n1.next = &n2;
+    n2.next = &n3;
+    n2.prev = &n1;
+    n3.prev = &n2;
+
+    cr_assert_eq(n2.prev, TODO, "What is the `prev` node of n2?");
+    cr_assert_eq(n2.next, TODO, "What is the `next` node of n2?");
+    ```
+
+
+
+
+
+
+
+## Файл `about_preprocessor.c`
+
+### **Test macro_definitions**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Знакомство с макросами. Необходимо изменить значения переменных, чтобы они соответствовали указанным макросам.
+    
+    **Рандомизация:**
+    Рандомизация значений макросов и данных переменных.
+    
+    **Участок кода:**
+    
+    ```c
+    #define JOKER "JOKER"
+
+    #define MAX(a, b) (a)
+    /* Fix the string we are comparing with what JOKER will be replaced with. */
+    const char *CHANGE_ME = "MONA";
+    cr_assert(strcmp(CHANGE_ME, JOKER) == 0,
+        "Macro JOKER not compared with what it was replaced with!");
+    int i = 1;
+    int j = 2;
+    cr_assert(MAX(i, j) == 2, "Max incorrect!");
+    ```
+
+
+### **Test conditional_defines**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Необходимо обьявить и переместить макросы, чтобы они обьявляли необходимые значения переменных.
+    
+    **Рандомизация:**
+    Рандомизация названии необходимых макросов.
+
+    **Участок кода:**
+    
+    ```c
+    #ifndef DEFINE_ME
+    #define FIVE 0
+    #else
+    #define FIVE 5
+    #endif /* DEFINE_ME */
+
+    #ifndef MOVE_ME
+    #define SEVEN 0
+    #else
+    #define SEVEN 7
+    #endif /* MOVE_ME */
+
+    #define MOVE_ME
+     /* Define the macro DEFINE_ME */
+    cr_assert_eq(5, FIVE, "FIVE incorrectly defined!");
+
+    /*
+        The Preprocessor does a linear scan, so things are defined in the order
+        they appear in the file.
+        For the next test, define MOVE_ME in a place such that it will pass.
+    */
+
+    cr_assert_eq(7, SEVEN, "SEVEN incorrectly defined!");
+    ```
+
+
+
+### **Test stringizing**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо указать правильный аргумент макроса, чтобы он соответствовал заданной строке.
+    
+    **Рандомизация:**
+    Рандомизация проверяемой строки.
+
+    **Участок кода:**
+    
+    ```c
+    #define STRINGIZE(arg) #arg
+    /*
+        To complete this test, replace put the correct argument into STRINGIZE
+        such that it will match the string literal.
+    */
+    cr_assert_eq("my string", STRINGIZE(TODO), "Stringizing not completed.");
+    ```
+
+
+### **Test macro_concatination**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо указать правильный аргумент для макроса в соответствии с указанными макросами.
+    
+    **Рандомизация:**
+    Нечего.
+
+    **Участок кода:**
+    
+    ```c
+    #define ALWAYS_FALSE false
+    #define ALWAYS_TRUE true
+
+    #define THIS_IS(b) ALWAYS_##b
+    /*
+        To complete this test, assert that THIS_IS(TRUE)!
+        Be wary of your usage of capital letters.
+    */
+    cr_assert(THIS_IS(FALSE), "Concatenation not completed.");
+    ```
+
+
+### **Test variadic_macros**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо указать верный набор переменных в макросе.
+    
+    **Рандомизация:**
+    Рандомизация входных аргументов.
+
+    **Участок кода:**
+    
+    ```c
+    #define VARIADIC_ARGUMENTS(...) #__VA_ARGS__
+
+    /*
+        To pass this test, put the correct argument into the macro call.
+        Note that the macro takes advantage of stringizing. Your argument is not
+        going to be a string.
+    */
+    cr_assert_eq("varable,args,with,commas", VARIADIC_ARGUMENTS(TODO),
+        "Variadic macros not yet completed");
+    ```
+
+
+# Итог
+Рандомизируются в основном значения тестовых переменных. Некоторая часть индексов массивов и входных строк. При желании можно рандомизировать наполнение тестовых функции и структур.
