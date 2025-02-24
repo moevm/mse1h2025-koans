@@ -18,6 +18,7 @@ def generate_char(case='upper'):
     return "'" + result + "'"
 
 
+# Словарь с информацией о заданиях
 task_dict = {
     "about_something": {
         "char_variable": {
@@ -58,8 +59,6 @@ generated_values = [
     globals()[params['function']](**params['parameters'])
     for params in task_dict[task_name].values()
 ]
-
-print(generated_values)
 
 
 def student_code_parser(student_code):
@@ -109,22 +108,23 @@ def get_test_code(task_name, student_code):
     return code
 
 
-def compile_with_parameters(task_name, student_code):
+def compile_and_run(task_name, student_code):
     '''
     Функция компелирует Си файл с заданными define параметрами.
     '''
 
     c_code = get_test_code(task_name, student_code)
     c_file = f'./src/{task_name}.c'
+    compiled_file = f'./bin/{task_name}'
 
     with open(c_file, "w") as f:
         f.write(c_code)
 
     subprocess.run([
-        "gcc", c_file, "-o", task_name, "-lcriterion"
+        "gcc", c_file, "-o", compiled_file, "-lcriterion"
     ])
 
-    subprocess.run([f"./{task_name}"])
+    subprocess.run([f"./bin/{task_name}"])
 
 
 if __name__ == '__main__':
@@ -140,4 +140,6 @@ if __name__ == '__main__':
     }}
     """
 
-    compile_with_parameters('about_something', student_code)
+    print(generated_values)
+
+    compile_and_run('about_something', student_code)
