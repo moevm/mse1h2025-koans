@@ -101,3 +101,43 @@
 
 
 
+# Шаблон для типа вопроса, который компилирует и запускает представленную студентом программу на языке C.
+
+```python
+import subprocess, sys
+
+# Write the student code to a file prog.c
+student_answer = """{{ STUDENT_ANSWER | e('py') }}"""
+with open("prog.c", "w") as src:
+    print(student_answer, file=src)
+
+# Compile
+{% if QUESTION.parameters.cflags is defined %}
+cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
+{% else %}
+cflags = "-std=c99 -Wall -Werror"
+{% endif %}
+return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
+if return_code != 0:
+    print("** Compilation failed. Testing aborted **", file=sys.stderr)
+
+# If compile succeeded, run the code. Since this is a per-test template,
+# stdin is already set up for the stdin text specified in the test case,
+# so we can run the compiled program directly.
+if return_code == 0:
+    try:
+        output = subprocess.check_output(["./prog"], universal_newlines=True)
+        print(output)
+    except subprocess.CalledProcessError as e:
+        if e.returncode > 0:
+            # Ignore non-zero positive return codes
+            if e.output:
+                print(e.output)
+        else:
+            # But negative return codes are signals - abort
+            if e.output:
+                print(e.output, file=sys.stderr)
+            if e.returncode < 0:
+                print("Task failed with signal", -e.returncode, file=sys.stderr)
+            print("** Further testing aborted **", file=sys.stderr)
+```
