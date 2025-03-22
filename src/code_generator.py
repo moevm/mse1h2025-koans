@@ -1,4 +1,5 @@
 import random
+import re
 from string import ascii_letters, ascii_lowercase
 
 
@@ -64,24 +65,27 @@ def generate_param(seed):
     return params
 
 
-def substitute_template(template: str) -> str:
+def substitute_template(template: str, params) -> str:
     """
     Подставляет в шаблон template параметры param,
     сгенерированные функцией generate_param()
     """
-    params = generate_param(1337)
+    pattern = re.compile(r'\$\$(\w+)\$\$')
 
-    for key, value in params.items():
-        template = template.replace(f'$${key}$$', value)
+    def replacer(match):
+        key = match.group(1)
+        return params.get(key, match.group(0))
 
-    return template
+    return pattern.sub(replacer, template)
 
 
 def main():
     with open("./tasks/basics.txt", "r") as file:
         template = file.read()
 
-    substituted = substitute_template(template)
+    params = generate_param(1337)
+
+    substituted = substitute_template(template, params)
     print(substituted)
 
 
