@@ -1,7 +1,7 @@
 import os
 
 
-def get_task_description(task_name, seed=None):
+def get_condition_task(task_name, seed=None):
     """
     Возвращает текст условия задания для указанного названия задания и seed.
 
@@ -28,7 +28,7 @@ def get_task_description(task_name, seed=None):
 
 
 def main():
-    print(get_task_description('basics'))
+    print(get_condition_task('basics_condition'))
 
 
 if __name__ == '__main__':
