@@ -40,7 +40,7 @@ def generate_double():
 
 def generate_param(seed):
     """
-    функция возвращает что-то, что хранит информацию
+    функция возвращает словарь, который хранит информацию,
     какой $$шаблон$$ на что заменить
     """
     random.seed(seed)
@@ -74,19 +74,36 @@ def substitute_template(template: str, params) -> str:
 
     def replacer(match):
         key = match.group(1)
-        return params.get(key, match.group(0))
+        value = params.get(key, match.group(0))
+        # Проверяем, можно ли привести значение к int,
+        # и оборачиваем его в скобки, если оно меньше 0
+        try:
+            int_value = float(value)
+            if int_value < 0:
+                return f'({int_value})'
+        except (ValueError, TypeError):
+            pass
+
+        return str(value)
 
     return pattern.sub(replacer, template)
 
 
-def main():
-    with open("./tasks/basics.txt", "r") as file:
+def get_final_code(file_name, generate_func, seed=1337):
+    """
+    Получаем код из файла {file_name}.txt
+    с подставленными значениями, сгенерированными функцией generate_func
+    """
+    with open(f"./tasks/{file_name}.txt", "r") as file:
         template = file.read()
 
-    params = generate_param(1337)
+    params = generate_func(seed)
 
-    substituted = substitute_template(template, params)
-    print(substituted)
+    return substitute_template(template, params)
+
+
+def main():
+    print(get_final_code('basics', generate_param))
 
 
 if __name__ == '__main__':
