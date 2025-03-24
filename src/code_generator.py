@@ -35,7 +35,11 @@ def generate_unsigned_int():
 
 
 def generate_double():
-    return str(round(random.uniform(-150, 150), 3))
+    num = round(random.uniform(-150, 150), 3)
+    str_num = str(num)
+    if num < 0:
+        str_num = '(' + str_num + ')'
+    return str_num
 
 
 def generate_param(seed):
@@ -74,17 +78,7 @@ def substitute_template(template: str, params) -> str:
 
     def replacer(match):
         key = match.group(1)
-        value = params.get(key, match.group(0))
-        # Проверяем, можно ли привести значение к int,
-        # и оборачиваем его в скобки, если оно меньше 0
-        try:
-            int_value = float(value)
-            if int_value < 0:
-                return f'({int_value})'
-        except (ValueError, TypeError):
-            pass
-
-        return str(value)
+        return params.get(key, match.group(0))
 
     return pattern.sub(replacer, template)
 
