@@ -1,0 +1,41 @@
+#include <stdlib.h>
+
+
+int main() {
+    char $$char$$ = {[1]};
+
+    if ($$char$$ != $$char_ans$$)
+        return 1;
+
+    short $$short$$ = {[2]};
+
+    if ($$short$$ != $$short_ans$$)
+        return 1;
+
+    int $$int$$ = {[3]};
+
+    if ($$int$$ != $$int_ans$$)
+        return 1;
+
+    long long $$ll$$ = {[4]};
+
+    if ($$ll$$ != $$ll_ans$$)
+        return 1;
+
+    unsigned int $$u_int$$ = {[5]};
+
+    if ($$u_int$$ > $$u_int_ans$$)
+        return 1;
+
+    double $$double_1$$ = {[6]};
+
+    if (abs($$double_1$$ - $$double_1_ans$$) >= 0.000001)
+        return 1;
+
+    double $$double_2$$ = {[7]};
+
+    if (abs($$double_2$$ - $$double_2_ans$$) >= 0.000001)
+        return 1;
+    
+    return 0;
+}
