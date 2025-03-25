@@ -1,17 +1,18 @@
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod
 from random import randint
-from store_task import StoreTask
+from tasks.interfaces import ABCTask
 
 
 class TaskMeta(ABCMeta):
     """Метакласс для автоматической регистрации классов задач."""
     def __init__(cls, name, bases, namespace):
         super().__init__(name, bases, namespace)
+        from tasks.store_task.store_task import StoreTask
         if not namespace.get('__abstract__', False):
             StoreTask.register_task(cls)
 
 
-class Task(ABC, metaclass=TaskMeta):
+class Task(ABCTask, metaclass=TaskMeta):
 
     __abstract__ = True
 
