@@ -1,5 +1,4 @@
-from abstracts.store_task import StoreTask
-from some_task import SomeTask
+from tasks import StoreTask
 import argparse
 
 
@@ -21,24 +20,41 @@ class App:
                 "cond_task - get_condition_task, "
                 "tmp_coderunner - get_template_coderunner"
             ),
+            nargs="+",
             type=str,
         )
-        self.parser.add_argument("--name", help="name tasks", type=str)
+        self.parser.add_argument(
+            "--name", help="name tasks", nargs="+", type=str
+        )
         self.parser.add_argument(
             "--seed", help="seed generation number", type=int
         )
 
-    def run(self):
-        task = self.store_task.get_task(self.args.name, self.args.seed)
-        match self.args.method:
+    def __print_generate_data(self, name, method):
+        task = self.store_task.get_task(name, self.args.seed)
+        match method:
             case "code_tmp":
-                print(task.get_code_template())
+                print((
+                    f"Coderunner, name: {name}:\n"
+                    f"{task.get_code_template()}"
+                ))
             case "cond_task":
-                print(task.get_condition_task())
+                print((
+                    f"Condition, name: {name}:\n"
+                    f"{task.get_condition_task()}"
+                ))
             case "tmp_coderunner":
-                print(task.get_template_coderunner())
+                print((
+                    f"Code, name: {name}:\n"
+                    f"{task.get_template_coderunner()}"
+                ))
             case _:
                 print("Такого метода не существует!")
+
+    def run(self):
+        for method in self.args.method:
+            for name in self.args.name:
+                self.__print_generate_data(name, method)      
 
 
 if __name__ == "__main__":
