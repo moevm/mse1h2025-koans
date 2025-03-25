@@ -1,0 +1,48 @@
+import subprocess, sys, re
+
+student_answer = {{ STUDENT_ANSWER }}
+
+template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
+
+code = """
+$$code$$
+"""
+
+
+def replacer(match):
+    key = match.group(1)
+    return template.get(key, match.group(0))
+
+
+pattern = re.compile(r'\{\[(\d+)\]\}')
+student_code = pattern.sub(replacer, code)
+
+with open("prog.c", "w") as src:
+    print(student_code, file=src)
+
+# Compile
+{% if QUESTION.parameters.cflags is defined %}
+cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
+{% else %}
+cflags = "-std=c99 -Wall -Werror"
+{% endif %}
+
+return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
+
+if return_code != 0:
+    print("** Compilation failed. Testing aborted **", file=sys.stderr)
+
+if return_code == 0:
+    try:
+        output = subprocess.check_output(["./prog"], universal_newlines=True)
+        print('Ok')
+    except subprocess.CalledProcessError as e:
+        if e.returncode > 0:
+            if e.output:
+                print(e.output)
+        else:
+            if e.output:
+                print(e.output, file=sys.stderr)
+            if e.returncode < 0:
+                print("Task failed with signal", -e.returncode, file=sys.stderr)
+            print("** Further testing aborted **", file=sys.stderr)
