@@ -14,7 +14,7 @@
             if ({[2]} != *string)
                 return 1;
             
-            if ({[3]} != *(string + 1))
+            if ({[3]} != *(string + $$index_1$$))
                 return 1;
         }
     
