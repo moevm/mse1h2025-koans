@@ -4,6 +4,7 @@ import tomllib
 from tasks import TEMPLATES_DIR
 from tasks.interfaces import ABCTask
 from tasks.store_task.store_task import StoreTask
+from tasks.toml_loader import TomlLoader
 
 
 class TaskMeta(ABCMeta):
@@ -60,31 +61,15 @@ class Task(ABCTask, metaclass=TaskMeta):
     def _load_template(self):
         name_cls = self.__class__.__name__
         path = TEMPLATES_DIR / self.path_template_toml
-        try:
-            with open(path, 'rb') as f:
-                self._template = tomllib.load(f)
-            for field in self.json_field:
-                if field not in self._template:
-                    raise ValueError(
-                        f"{name_cls}: Файл '{path}' "
-                        f'не содержит {field}'
-                    )
 
-        except FileNotFoundError:
-            raise FileNotFoundError(
-                f"{name_cls}: Шаблон по пути '{path}' не найден"
-            ) from None
+        self._template = TomlLoader(path).data
 
-        except tomllib.TOMLDecodeError as e:
-            raise ValueError(
-                f"{name_cls}: Файл '{path}' содержит "
-                f"некорректный TOML: {str(e)}"
-            ) from None
-
-        except Exception as e:
-            raise RuntimeError(
-                f"{name_cls}: Ошибка загрузки шаблона: {str(e)}"
-            ) from None
+        for field in self.json_field:
+            if field not in self._template:
+                raise ValueError(
+                    f"{name_cls}: Файл '{path}' "
+                    f'не содержит {field}'
+                )
 
     @abstractmethod
     def _generate_condition_task(self, seed: int) -> str:
