@@ -1,0 +1,16 @@
+# Диапазоны констант:
+[range_int]
+min = -50
+max = 50
+[range_short]
+min = -10
+max = 10
+[range_long_long]
+min = -500
+max = 500
+[range_unsigned_int]
+min = 0
+max = 100
+[range_double]
+min = -150
+max = 150
