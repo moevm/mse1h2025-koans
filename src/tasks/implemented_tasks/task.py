@@ -1,20 +1,43 @@
 from abc import ABCMeta, abstractmethod
 from random import randint
+import tomllib
+from tasks import TEMPLATES_DIR
 from tasks.interfaces import ABCTask
+from tasks.store_task.store_task import StoreTask
 
 
 class TaskMeta(ABCMeta):
     """Метакласс для автоматической регистрации классов задач."""
     def __init__(cls, name, bases, namespace):
         super().__init__(name, bases, namespace)
-        from tasks.store_task.store_task import StoreTask
-        if not namespace.get('__abstract__', False):
-            StoreTask.register_task(cls)
+
+        if namespace.get('__abstract__', False):
+            return
+
+        StoreTask.register_task(cls)
+
+        for field in cls.required_fields:
+            if field not in namespace:
+                raise AttributeError(
+                    f"Класс {cls.__name__} должен содержать поле '{field}'"
+                )
 
 
 class Task(ABCTask, metaclass=TaskMeta):
 
     __abstract__ = True
+
+    required_fields = [
+        'name',
+        'description',
+        'path_template_toml'
+    ]
+
+    json_field = [
+        'template_condition',
+        'template_code',
+        'template_coderunner'
+    ]
 
     def __init__(self, seed: int | None = None):
         if seed is None:
@@ -26,11 +49,42 @@ class Task(ABCTask, metaclass=TaskMeta):
 
         self.__seed = seed
 
+        self._load_template()
+
         self.__data = {
             'condition_task': self._generate_condition_task(seed),
             'code_template': self._generate_code_template(seed),
             'template_coderunner': self._generate_template_coderunner(seed)
         }
+
+    def _load_template(self):
+        name_cls = self.__class__.__name__
+        path = TEMPLATES_DIR / self.path_template_toml
+        try:
+            with open(path, 'rb') as f:
+                self._template = tomllib.load(f)
+            for field in self.json_field:
+                if field not in self._template:
+                    raise ValueError(
+                        f"{name_cls}: Файл '{path}' "
+                        f'не содержит {field}'
+                    )
+
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"{name_cls}: Шаблон по пути '{path}' не найден"
+            ) from None
+
+        except tomllib.TOMLDecodeError as e:
+            raise ValueError(
+                f"{name_cls}: Файл '{path}' содержит "
+                f"некорректный TOML: {str(e)}"
+            ) from None
+
+        except Exception as e:
+            raise RuntimeError(
+                f"{name_cls}: Ошибка загрузки шаблона: {str(e)}"
+            ) from None
 
     @abstractmethod
     def _generate_condition_task(self, seed: int) -> str:
