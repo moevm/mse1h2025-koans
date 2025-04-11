@@ -1,0 +1,114 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+    
+int main() {
+    // Test 1: what_is_string
+    {
+        char *string = $$string_1$$;
+        
+        if (string {[1]} NULL)
+            return 1;
+        
+        if ({[2]} != *string)
+            return 1;
+        
+        if ({[3]} != *(string + $$index_1$$))
+            return 1;
+    }
+
+    // Test 2: reference_characters
+    {
+        char *string = $$string_2$$;
+        
+        if ({[4]} != string[$$index_2_1$$])
+            return 1;
+        
+        if ({[5]} != (string + $$index_2_2$$)[$$index_2_3$$])
+            return 1;
+        
+        if (*string + $$index_2_4$$ {[6]} *(string + $$index_2_4$$))
+            return 1;
+    }
+
+    // Test 3: assignment
+    {
+        char string[] = $$string_3$$;
+
+        string[$$index_3_1$$] = $$char_3_1$$;
+        if (strcmp({[7]}, string) != 0)
+            return 1;
+        
+        *(string + $$index_3_2$$) = $$char_3_2$$;
+        if (strcmp({[8]}, string) != 0)
+            return 1;
+        
+        (string + $$index_3_3$$)[$$index_3_4$$] = $$char_3_3$$;
+        if (strcmp({[9]}, string) != 0)
+            return 1;
+    }
+
+    // Test 4: declaration
+    {
+        char string1[] = $$string_array_4$$;
+        char string2[] = $$string_4$$;
+        
+        if (sizeof(string1) {[10]} sizeof(string2))
+            return 1;
+    }
+
+    // Test 5: sizeof_strlen
+    {
+        char string[] = $$string_array_5_1$$;
+        
+        if (sizeof(string) {[11]} strlen(string))
+            return 1;
+        
+        char *string2 = $$string_ptr_5$$;
+        char string3[$$len_string_5$$] = $$string_5$$;
+        
+        if ({[12]} != sizeof(string2))
+            return 1;
+        
+        if ({[13]} != sizeof(string3))
+            return 1;
+    }
+
+    // Test 6: copy
+    {
+        char string1[] = $$string_6$$;
+        char *string2 = string1;
+        string1[$$index_6$$] = $$char_6$$;
+        
+        if (strcmp({[14]}, string2) != 0)
+            return 1;
+        
+        char string3[$$len_string_6$$];
+        strcpy(string3, string1);
+        
+        if (strcmp({[15]}, string3) != 0)
+            return 1;
+    }
+
+    // Test 7: function_paramater
+    {
+        char string[] = $$func_param_string_7$$;
+        
+        if ({[16]} != sizeof(string))
+            return 1;
+    }
+
+    // Test 8: formating_strings
+    {
+        char *string1 = malloc($$len_string_8$$);
+        sprintf(string1, "%s %s!", $$format_8_1$$, $$format_8_2$$);
+        
+        if (strcmp({[17]}, string1) != 0)
+            return 1;
+        
+        free(string1);
+    }
+
+    return 0;
+}

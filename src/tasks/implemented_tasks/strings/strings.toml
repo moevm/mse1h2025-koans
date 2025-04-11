@@ -1,0 +1,24 @@
+[strings_1]
+strings = ["I love C so much!", "C is the BEST!", "Learning C is COOL!", "C is SO AWESOME!"]
+max_index = 6
+
+[strings_2]
+strings = [
+    ['I', ' ', 'l', 'o', 'v', 'e', ' ', 'C', '\0', 's', 'o', ' ', 'm', 'u', 'c', 'h', '!'],
+    ['C', ' ', 'i', 's', ' ', 't', 'h', 'e', '\0', 'B', 'E', 'S', 'T', '!'],
+    ['L', 'e', 'a', 'r', 'n', 'i', 'n', 'g', '\0', 'C', ' ', 'i', 's', ' ', 'C', 'O', 'O', 'L', '!'],
+    ['C', ' ', 'i', 's', '\0', 'S', 'O', ' ', 'A', 'W', 'E', 'S', 'O', 'M', 'E', '!']
+]
+max_index = 6
+
+[strings_3]
+strings = [
+    ['I', ' ', 'l', 'o', 'v', 'e', ' ', 'C', ' ', 's', 'o', ' ', 'm', 'u', 'c', 'h', '!', '\0'],
+    ['C', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 'B', 'E', 'S', 'T', '!', '\0'],
+    ['L', 'e', 'a', 'r', 'n', 'i', 'n', 'g', ' ', 'C', ' ', 'i', 's', ' ', 'C', 'O', 'O', 'L', '!', '\0'],
+    ['C', ' ', 'i', 's', ' ', 'S', 'O', ' ', 'A', 'W', 'E', 'S', 'O', 'M', 'E', '!', '\0']
+]
+
+[strings_4]
+strings = ["Austria", "Lebron James", "Cold", "Cheboksary", "Airplane", "Viking", "Hat", "Bulterier"]
+max_index = 4

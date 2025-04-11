@@ -54,7 +54,7 @@ class App:
     def run(self):
         for method in self.args.method:
             for name in self.args.name:
-                self.__print_generate_data(name, method)      
+                self.__print_generate_data(name, method)    
 
 
 if __name__ == "__main__":
