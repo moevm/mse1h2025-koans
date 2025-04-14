@@ -1,0 +1,20 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+    
+int main() {
+    // Test 2: reference_characters
+    char *string = $$string_2$$;
+        
+    if ({[4]} != string[$$index_2_1$$])
+        return 1;
+    
+    if ({[5]} != (string + $$index_2_2$$)[$$index_2_3$$])
+        return 1;
+    
+    if (*string + $$index_2_4$$ {[6]} *(string + $$index_2_4$$))
+        return 1;
+
+    return 0;
+}
