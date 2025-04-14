@@ -1,0 +1,14 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+    
+int main() {
+    // Test 7: function_paramater
+    char string[] = $$func_param_string_7$$;
+    
+    if ({[16]} != sizeof(string))
+        return 1;
+
+    return 0;
+}
