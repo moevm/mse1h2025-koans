@@ -54,6 +54,16 @@ $$code$$
 """
 
 
+error_messages = {
+    1: ("Переменная 'w' имеет неверное значение.", 5),
+    2: ("Переменная 'r' имеет неверное значение.", 10),
+    3: ("Переменная 'm' имеет неверное значение.", 15),
+    4: ("Переменная 'x' имеет неверное значение.", 20),
+    5: ("Переменная 'g' превышает допустимый предел.", 25),
+    6: ("Переменная 'n' отклоняется от нужного значения.", 30),
+    7: ("Переменная 'o' отклоняется от нужного значения.", 35)
+}
+
 def replacer(match):
     key = match.group(1)
     return template.get(key, match.group(0))
@@ -77,19 +87,25 @@ return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
 if return_code != 0:
     print("** Compilation failed. Testing aborted **", file=sys.stderr)
 
+
 if return_code == 0:
     try:
         output = subprocess.check_output(["./prog"], universal_newlines=True)
         print('Ok')
     except subprocess.CalledProcessError as e:
         if e.returncode > 0:
+            print(f"Ошибка в проверке №{e.returncode}.")
+            if e.returncode in error_messages:
+                message, line = error_messages[e.returncode]
+                print(f"{message}")
+                print(f"Ошибка на строке {line}.")
             if e.output:
                 print(e.output)
         else:
             if e.output:
                 print(e.output, file=sys.stderr)
             if e.returncode < 0:
-                print("Task failed with signal", -e.returncode, file=sys.stderr)
+                print(f"Программа завершилась с сигналом {-e.returncode}.", file=sys.stderr)
             print("** Further testing aborted **", file=sys.stderr)
 '''
 
