@@ -46,12 +46,28 @@ template_coderunner = '''
 import subprocess, sys, re
 
 
+def find_substrings(text, substrings): 
+    pattern = re.compile('|'.join(map(re.escape, substrings)))
+    return pattern.findall(text)
+
+
+def check_student_answers_for_substrings(student_answers,substrings):
+    for answer in student_answers:
+        found_substring = find_substrings(answer, substrings)
+        if found_substring:
+            print(f"Your answer has {set(found_substring)} in this answer", answer)
+            sys.exit()
+
+
 def replacer(match):
     key = match.group(1)
     return template.get(key, match.group(0))
 
 
 student_answer = {{ STUDENT_ANSWER }}
+
+banned_words = ['exit', ';', 'return']
+check_student_answers_for_substrings(student_answer, banned_words)
 
 template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
 
