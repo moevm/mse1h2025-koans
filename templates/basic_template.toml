@@ -45,8 +45,21 @@ int main() {
 template_coderunner = '''
 import subprocess, sys, re
 
+def check_student_answer_for_substring(student_answers,substring):
+    for answer in student_answers:
+        print(f"You answer has {substring} in this answer", answer)
+        return -1
+    else:
+        return 0
+
+def find_substrings(text, substrings): 
+    pattern = re.compile('|'.join(map(re.escape, substrings)))
+    return pattern.findall(text)
+
 student_answer = {{ STUDENT_ANSWER }}
 
+check_student_answer_for_substring(student_answer, ';')
+check_student_answer_for_substring(student_answer, 'exit')
 template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
 
 code = """
@@ -56,7 +69,7 @@ $$code$$
 
 def replacer(match):
     key = match.group(1)
-    return template.get(key, match.group(0))
+    return template.get(key, match.group(0))    
 
 
 pattern = re.compile(r'\{\[(\d+)\]\}')
