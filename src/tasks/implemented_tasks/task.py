@@ -1,6 +1,5 @@
 from abc import ABCMeta, abstractmethod
 from random import randint
-import tomllib
 from tasks import TEMPLATES_DIR
 from tasks.interfaces import ABCTask
 from tasks.store_task.store_task import StoreTask
@@ -34,7 +33,7 @@ class Task(ABCTask, metaclass=TaskMeta):
         'path_template_toml'
     ]
 
-    json_field = [
+    toml_field = [
         'template_condition',
         'template_code',
         'template_coderunner'
@@ -64,7 +63,7 @@ class Task(ABCTask, metaclass=TaskMeta):
 
         self._template = TomlLoader(path).data
 
-        for field in self.json_field:
+        for field in self.toml_field:
             if field not in self._template:
                 raise ValueError(
                     f"{name_cls}: Файл '{path}' "
