@@ -11,32 +11,32 @@ int main() {
     short $$short$$ = {[2]};
 
     if ($$short$$ != $$short_ans$$)
-        return 1;
+        return 2;
 
     int $$int$$ = {[3]};
 
     if ($$int$$ != $$int_ans$$)
-        return 1;
+        return 3;
 
     long long $$ll$$ = {[4]};
 
     if ($$ll$$ != $$ll_ans$$)
-        return 1;
+        return 4;
 
     unsigned int $$u_int$$ = {[5]};
 
     if ($$u_int$$ > $$u_int_ans$$)
-        return 1;
+        return 5;
 
     double $$double_1$$ = {[6]};
 
     if (abs($$double_1$$ - $$double_1_ans$$) >= 0.000001)
-        return 1;
+        return 6;
 
     double $$double_2$$ = {[7]};
 
     if (abs($$double_2$$ - $$double_2_ans$$) >= 0.000001)
-        return 1;
+        return 7;
     
     return 0;
 }
@@ -45,6 +45,12 @@ int main() {
 template_coderunner = '''
 import subprocess, sys, re
 
+
+def replacer(match):
+    key = match.group(1)
+    return template.get(key, match.group(0))
+
+
 student_answer = {{ STUDENT_ANSWER }}
 
 template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
@@ -52,12 +58,6 @@ template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
 code = """
 $$code$$
 """
-
-
-def replacer(match):
-    key = match.group(1)
-    return template.get(key, match.group(0))
-
 
 pattern = re.compile(r'\{\[(\d+)\]\}')
 student_code = pattern.sub(replacer, code)
@@ -75,22 +75,17 @@ cflags = "-std=c99 -Wall -Werror"
 return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
 
 if return_code != 0:
-    print("** Compilation failed. Testing aborted **", file=sys.stderr)
+    sys.exit()
 
-if return_code == 0:
-    try:
-        output = subprocess.check_output(["./prog"], universal_newlines=True)
-        print('Ok')
-    except subprocess.CalledProcessError as e:
-        if e.returncode > 0:
-            if e.output:
-                print(e.output)
-        else:
-            if e.output:
-                print(e.output, file=sys.stderr)
-            if e.returncode < 0:
-                print("Task failed with signal", -e.returncode, file=sys.stderr)
-            print("** Further testing aborted **", file=sys.stderr)
+try:
+    output = subprocess.check_output(["./prog"], universal_newlines=True)
+    print('Ok')
+except subprocess.CalledProcessError as e:
+    if e.returncode > 0:
+        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
+    else:
+        if e.output:
+            print(e.output, file=sys.stderr)
 '''
 
 template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
