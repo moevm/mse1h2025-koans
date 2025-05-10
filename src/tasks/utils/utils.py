@@ -1,6 +1,6 @@
 import re
 import random
-from string import ascii_letters, ascii_lowercase
+from string import ascii_letters
 from tasks.toml_loader import SettingsLoader
 
 
@@ -23,12 +23,12 @@ class GeneratorTemplate:
     settings = SettingsLoader()
 
     @classmethod
-    def generate_name(cls):
+    def generate_name(cls, name_list):
         """
-        Возвращаем случайное название переменной,
-        состоящее из одной буквы в нижнем регистре.
+        |Возвращает случайную строку из переданного
+        списка имён.
         """
-        return random.choice(ascii_lowercase)
+        return random.choice(name_list)
 
     @classmethod
     def generate_char(cls):
