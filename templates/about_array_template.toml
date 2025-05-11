@@ -3,7 +3,7 @@ template_code = """
 
 #include <stdlib.h>
 
-void func(int *array) {
+int func(int *array) {
     /* 
     Размер переданного массива измениться, это связано с тем, 
     что происходит передача указателя, а не самого объекта массива 
@@ -196,6 +196,7 @@ int main() {
     if (a_string[12] != {[9]}) {
         return 9;
     }
+    return 0;
 }
 
 """
