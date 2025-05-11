@@ -23,33 +23,27 @@ class App:
             nargs="+",
             type=str,
         )
-        self.parser.add_argument(
-            "--name", help="name tasks", nargs="+", type=str
-        )
-        self.parser.add_argument(
-            "--seed", help="seed generation number", type=int
-        )
+        self.parser.add_argument("--name", help="name tasks", nargs="+", type=str)
+        self.parser.add_argument("--seed", help="seed generation number", type=int)
 
     def __print_generate_data(self, name, methods):
         task = self.store_task.get_task(name, self.args.seed)
         for method in methods:
-            if method == "code_tmp":
-                print((
-                    f"Coderunner, name: {name}:\n"
-                    f"{task.get_code_template()}"
-                ))
-            elif method == "cond_task":
-                print((
-                    f"Condition, name: {name}:\n"
-                    f"{task.get_condition_task()}"
-                ))
-            elif method == "tmp_coderunner":
-                print((
-                    f"Code, name: {name}:\n"
-                    f"{task.get_template_coderunner()}"
-                ))
-            else:
-                print("Такого метода не существует!")
+            match method:
+                case "code_tmp":
+                    print(
+                        (f"Coderunner, name: {name}:\n" f"{task.get_code_template()}")
+                    )
+                case "cond_task":
+                    print(
+                        (f"Condition, name: {name}:\n" f"{task.get_condition_task()}")
+                    )
+                case "tmp_coderunner":
+                    print(
+                        (f"Code, name: {name}:\n" f"{task.get_template_coderunner()}")
+                    )
+                case _:
+                    print("Такого метода не существует!")
 
     def run(self):
         for name in self.args.name:

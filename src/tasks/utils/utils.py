@@ -77,3 +77,17 @@ class GeneratorTemplate:
         if num < 0:
             str_num = '(' + str_num + ')'
         return str_num
+
+    @classmethod
+    def generate_int_range(cls, number_min, number_max):
+        return str(random.randint(number_min, number_max))
+
+    @classmethod
+    def generate_array(cls, array_size):
+        return (
+            "{"
+            + ", ".join(
+                [cls.generate_int_range(0, 100) for _ in range(int(array_size))]
+            )
+            + "}"
+        )
