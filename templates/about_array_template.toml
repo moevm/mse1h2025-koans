@@ -145,17 +145,8 @@ int main() {
     yet_another_array[INIT_ARR_SIZE] = $$short_ans$$;
     unsigned where = 0;
     for (i = 0; i < INIT_ARR_SIZE + 1; i++) {
-        if (yet_another_array[i] == INIT_ARR_SIZE + 1) {
+        if (yet_another_array[i] == $$short_ans$$) {
             where = i;
-        }
-
-        /*
-        * Хотя мы начали с массива из $$size_random_array$$ элементов,
-        * мы должны иметь возможность добавить шестой элемент.
-        */
-        // Тут вопросик: надо протестить, потому что ответ тут i + 1 
-        if (yet_another_array[i] != {[6]}) {
-            return 6;
         }
     }
 
@@ -164,8 +155,8 @@ int main() {
     * учитывая, как мы установили значения этих элементов.
     */
     
-    if (where != {[7]}) {
-        return 7;
+    if (where != {[6]}) {
+        return 6;
     }
 
     /*
@@ -180,8 +171,8 @@ int main() {
     /*
     * В языке C строка — это просто массив символов.
     */
-    if (a_string[$$random_element_string$$] != {[8]}) {
-        return 8;
+    if (a_string[$$random_element_string$$] != {[7]}) {
+        return 7;
     }
 
     /*
@@ -193,8 +184,8 @@ int main() {
     * может привести к очень опасным и непредсказуемым ошибкам.
     */
 
-    if (a_string[12] != {[9]}) {
-        return 9;
+    if (a_string[12] != {[8]}) {
+        return 8;
     }
     return 0;
 }
