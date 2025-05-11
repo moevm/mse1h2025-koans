@@ -91,3 +91,8 @@ class GeneratorTemplate:
             )
             + "}"
         )
+    
+    @classmethod
+    def generate_string(cls, string_size):
+        body = "".join(random.choice(ascii_letters) for _ in range(int(string_size)))
+        return '"' + body + '"'

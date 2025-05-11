@@ -15,6 +15,7 @@ class AboutAttayTask(Task):
         """
         random.seed(seed)
         size_random_array = GeneratorTemplate.generate_int_range(3, 15)
+        size_random_string = GeneratorTemplate.generate_int_range(5, 15)
         params = {
             "short_ans": GeneratorTemplate.generate_short(),
             "offset_array": GeneratorTemplate.generate_int_range(1, 4),
@@ -26,8 +27,9 @@ class AboutAttayTask(Task):
                 1, int(size_random_array) - 1
             ),
             "random_element_string": GeneratorTemplate.generate_int_range(
-                0, 11
+                0, int(size_random_string) - 1
             ),
+            "random_string": GeneratorTemplate.generate_string(size_random_string),
         }
         for i in range(5):
             params["int_ans_" + str(i)] = GeneratorTemplate.generate_int_range(-10, 30)

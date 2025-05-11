@@ -1,5 +1,5 @@
 
-template_code = """
+template_code = '''
 
 #include <stdlib.h>
 
@@ -163,10 +163,10 @@ int main() {
     * Часто нам нужно представлять строки в программе,
     * и обычно для этого используется класс или тип String.
     * К сожалению, в языке C нет встроенного понятия строки, 
-    * как это реализовано в некоторых других языках (например, Java).
+    * как это реализовано в некоторых других языках.
     */
 
-    const char a_string[13] = "hello world!"; /* Это "строка" в Cи. */
+    const char a_string[] = $$random_string$$; /* Это "строка" в Cи. */
 
     /*
     * В языке C строка — это просто массив символов.
@@ -184,13 +184,13 @@ int main() {
     * может привести к очень опасным и непредсказуемым ошибкам.
     */
 
-    if (a_string[12] != {[8]}) {
+    if (a_string[{[8]}] != 0) {
         return 8;
     }
     return 0;
 }
 
-"""
+'''
 
 
 
@@ -221,7 +221,7 @@ def replacer(match):
 
 student_answer = {{ STUDENT_ANSWER }}
 
-banned_words = ['exit', ';', 'return']
+banned_words = ['exit', ';', 'return', '(', '[']
 check_student_answers_for_substrings(student_answer, banned_words)
 
 template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
