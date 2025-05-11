@@ -1,7 +1,7 @@
 import re
 import random
 from string import ascii_letters
-from tasks.toml_loader import SettingsLoader
+from ..toml_loader import SettingsLoader
 
 
 def substitute_template(template: str, params: dict[str, str]) -> str:
@@ -77,3 +77,7 @@ class GeneratorTemplate:
         if num < 0:
             str_num = '(' + str_num + ')'
         return str_num
+
+    @classmethod
+    def generate_int_range(cls, number_min, number_max):
+        return str(random.randint(number_min, number_max))
