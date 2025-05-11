@@ -3,39 +3,39 @@ template_code = """
 
 
 int main() {
-    char $$char$$ = {[1]};
+    char char_variable = {[1]};
 
-    if ($$char$$ != $$char_ans$$)
+    if (char_variable != $$char_ans$$)
         return 1;
 
-    short $$short$$ = {[2]};
+    short short_variable = {[2]};
 
-    if ($$short$$ != $$short_ans$$)
+    if (short_variable != $$short_ans$$)
         return 2;
 
-    int $$int$$ = {[3]};
+    int int_variable = {[3]};
 
-    if ($$int$$ != $$int_ans$$)
+    if (int_variable != $$int_ans$$)
         return 3;
 
-    long long $$ll$$ = {[4]};
+    long long ll_variable = {[4]};
 
-    if ($$ll$$ != $$ll_ans$$)
+    if (ll_variable != $$ll_ans$$)
         return 4;
 
-    unsigned int $$u_int$$ = {[5]};
+    unsigned int u_int_variable = {[5]};
 
-    if ($$u_int$$ > $$u_int_ans$$)
+    if (u_int_variable > $$u_int_ans$$)
         return 5;
 
-    double $$double_1$$ = {[6]};
+    double dounble_variable_1 = {[6]};
 
-    if (abs($$double_1$$ - $$double_1_ans$$) >= 0.000001)
+    if (abs(dounble_variable_1 - $$double_1_ans$$) >= 0.000001)
         return 6;
 
-    double $$double_2$$ = {[7]};
+    double dounble_variable_2 = {[7]};
 
-    if (abs($$double_2$$ - $$double_2_ans$$) >= 0.000001)
+    if (abs(dounble_variable_2 - $$double_2_ans$$) >= 0.000001)
         return 7;
     
     return 0;

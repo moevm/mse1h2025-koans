@@ -16,19 +16,12 @@ class BasicTask(Task):
         random.seed(seed)
 
         params = {
-            "char": GeneratorTemplate.generate_name(),
             "char_ans": GeneratorTemplate.generate_char(),
-            "short": GeneratorTemplate.generate_name(),
             "short_ans": GeneratorTemplate.generate_short(),
-            "int": GeneratorTemplate.generate_name(),
             "int_ans": GeneratorTemplate.generate_int(),
-            "ll": GeneratorTemplate.generate_name(),
             "ll_ans": GeneratorTemplate.generate_long_long(),
-            "u_int": GeneratorTemplate.generate_name(),
             "u_int_ans": GeneratorTemplate.generate_unsigned_int(),
-            "double_1": GeneratorTemplate.generate_name(),
             "double_1_ans": GeneratorTemplate.generate_double(),
-            "double_2": GeneratorTemplate.generate_name(),
             "double_2_ans": GeneratorTemplate.generate_double(),
         }
 
