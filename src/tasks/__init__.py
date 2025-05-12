@@ -7,6 +7,7 @@ SETTINGS_DIR = ROOT_DIR / 'settings'
 
 from .implemented_tasks import *
 
+
 __all__ = [
     'StoreTask'
 ]

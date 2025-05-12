@@ -1,5 +1,5 @@
 import random
-from .task import Task
+from tasks.implemented_tasks.task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 
 

@@ -3,7 +3,7 @@ from tasks.implemented_tasks.task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 
 
-class AboutAttayTask(Task):
+class AboutArrayTask(Task):
 
     name = "about_array_task"
     description = "Знакомство с массивом"
