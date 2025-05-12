@@ -1,9 +1,8 @@
 import random
-import os
-import tomllib
 from .task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 from tasks import SETTINGS_DIR
+from tasks.toml_loader import TomlLoader
 
 
 class StringsAssignment(Task):
@@ -11,9 +10,7 @@ class StringsAssignment(Task):
     config_path = (
         SETTINGS_DIR / "settings_strings_task" / "strings_variables.toml"
     )
-    with open(config_path, "rb") as f:
-        config = tomllib.load(f)
-
+    config = TomlLoader(config_path).data
     name = 'strings_assignment'
     description = '...'
     path_template_toml = 'strings_assignment.toml'
@@ -49,47 +46,15 @@ class StringsAssignment(Task):
         return params
 
     def _generate_condition_task(self, seed: int) -> str:
-        base_path = os.path.dirname(__file__)
-        task_path = os.path.join(base_path, 'templates',
-                                 'strings_template_condition.txt')
-
-        if not os.path.exists(task_path):
-            raise FileNotFoundError(
-                'Описание задания для strings_3 не найдено.'
-            )
-
-        with open(task_path, 'r', encoding='utf-8') as file:
-            description = file.read()
-
+        description = self._template['template_condition']
         return description
 
     def _generate_code_template(self, seed: int) -> str:
-        base_path = os.path.dirname(__file__)
-        task_path = os.path.join(base_path, 'templates',
-                                 'strings_3_template_code.txt')
-
-        if not os.path.exists(task_path):
-            raise FileNotFoundError('Код задания для strings_3 не найдено.')
-
-        with open(task_path, 'r', encoding='utf-8') as file:
-            template = file.read()
-
+        template = self._template['template_code']
         params = self.__generate_param(seed)
-
         return substitute_template(template, params)
 
     def _generate_template_coderunner(self, seed: int) -> str:
-        base_path = os.path.dirname(__file__)
-        task_path = os.path.join(base_path, 'templates',
-                                 'basic_template_coderunner.txt')
-
-        if not os.path.exists(task_path):
-            raise FileNotFoundError(
-                'Coderunner шаблон для strings_3 не найден.'
-            )
-
-        with open(task_path, "r", encoding='utf-8') as file:
-            template = file.read()
-
+        template = self._template['template_coderunner']
         params = {'code': self._generate_code_template(seed)}
         return substitute_template(template, params)

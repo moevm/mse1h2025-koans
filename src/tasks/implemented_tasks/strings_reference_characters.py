@@ -1,8 +1,8 @@
 import random
-import tomllib
 from .task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 from tasks import SETTINGS_DIR
+from tasks.toml_loader import TomlLoader
 
 
 class StringsReferenceCharacters(Task):
@@ -10,9 +10,7 @@ class StringsReferenceCharacters(Task):
     config_path = (
         SETTINGS_DIR / "settings_strings_task" / "strings_variables.toml"
     )
-    with open(config_path, "rb") as f:
-        config = tomllib.load(f)
-
+    config = TomlLoader(config_path).data
     name = 'strings_reference_characters'
     description = '...'
     path_template_toml = 'strings_reference_characters.toml'
