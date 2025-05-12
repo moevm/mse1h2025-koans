@@ -1,19 +1,18 @@
 import random
-from src.tasks.implemented_tasks.task import Task
+from tasks.implemented_tasks.task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 
 
-class FunctionPointersTask(Task):
-    name = 'function_pointers_task'
-    description = 'Указатели на функции'
-    path_template_toml = 'function_pointers_template.toml'
+class PointersAndAddressesTask(Task):
+    name = 'pointers_and_addresses_task'
+    description = 'Знакомство с указателями и адресами'
+    path_template_toml = 'pointers_and_addresses_template.toml'
 
     def __generate_param(self, seed: int) -> dict[str, str]:
         random.seed(seed)
         params = {
-            "val1": GeneratorTemplate.generate_int_range(1, 10),
-            "val2": GeneratorTemplate.generate_int_range(1, 10),
-            "val3": GeneratorTemplate.generate_int_range(1, 10),
+            "int_val": GeneratorTemplate.generate_int(),
+            "another_int_val": GeneratorTemplate.generate_int(),
         }
         return params
 
