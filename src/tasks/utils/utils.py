@@ -81,3 +81,18 @@ class GeneratorTemplate:
     @classmethod
     def generate_int_range(cls, number_min, number_max):
         return str(random.randint(number_min, number_max))
+
+    @classmethod
+    def generate_array(cls, array_size):
+        return (
+            "{"
+            + ", ".join(
+                [cls.generate_int_range(0, 100) for _ in range(int(array_size))]
+            )
+            + "}"
+        )
+    
+    @classmethod
+    def generate_string(cls, string_size):
+        body = "".join(random.choice(ascii_letters) for _ in range(int(string_size)))
+        return '"' + body + '"'

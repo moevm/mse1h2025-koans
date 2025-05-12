@@ -59,7 +59,6 @@ class App:
         color = 'cyan' if not self.args.no_color else None
 
         for method in methods:
-
             if method == 'code_tmp':
                 color_print('Code, name', color=color, end='')
                 print(f': {name}:\n{task.get_code_template()}')
