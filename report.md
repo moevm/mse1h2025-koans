@@ -15,7 +15,7 @@
 
 ## Итерация 3
 
-1. [Презентация (PDF)](/resources/iter2.pdf)
+1. [Презентация (PDF)](/resources/iter3.pdf)
 2. [Протоколы/записи созвонов](/resources/communications.md)
-3. [Инструкция](https://github.com/moevm/mse1h2025-koans/blob/v1.0/README.md)
-4. [Демо (Скринкаст)](https://drive.google.com/file/d/1IAVoXF6tlG4d8hiXhcxrv8JK2ZCulcUJ/view?usp=sharing)
+3. [Инструкция](https://github.com/moevm/mse1h2025-koans/blob/main/README.md)
+4. [Демо (Скринкаст)](https://drive.google.com/file/d/1CSFg16Wlzb7CrazMEv1s6PZzmGOLwArH/view?usp=sharing)
