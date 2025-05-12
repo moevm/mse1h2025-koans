@@ -4,6 +4,8 @@ from .task import Task
 class SomeTask(Task):
 
     name = 'some_task'
+    description = 'some_task'
+    path_template_toml = 'any'
 
     def _generate_condition_task(self, seed: int) -> str:
         return ''
