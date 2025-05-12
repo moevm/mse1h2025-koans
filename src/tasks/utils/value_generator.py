@@ -1,26 +1,20 @@
-import re
 import random
 from string import ascii_letters
-from tasks.toml_loader import SettingsLoader
+
+from tasks import SETTINGS_DIR
+from .load_toml import load_toml
 
 
-def substitute_template(template: str, params: dict[str, str]) -> str:
-    """
-    Подставляет в шаблон template параметры param,
-    сгенерированные функцией generate_param()
-    """
-    pattern = re.compile(r'\$\$(\w+)\$\$')
-
-    def replacer(match):
-        key = match.group(1)
-        return params.get(key, match.group(0))
-
-    return pattern.sub(replacer, template)
+GENERATOR_SETTINGS_PATH = SETTINGS_DIR / 'settings_const.toml'
 
 
-class GeneratorTemplate:
+class ValueGenerator:
 
-    settings = SettingsLoader()
+    settings = load_toml(GENERATOR_SETTINGS_PATH)
+
+    @classmethod
+    def set_seed(cls, seed: int):
+        random.seed(seed)
 
     @classmethod
     def generate_name(cls, name_list):
@@ -40,37 +34,37 @@ class GeneratorTemplate:
     @classmethod
     def generate_int(cls):
         return str(random.randint(
-            cls.settings.data['range_int']['min'],
-            cls.settings.data['range_int']['max']
+            cls.settings['range_int']['min'],
+            cls.settings['range_int']['max']
         ))
 
     @classmethod
     def generate_short(cls):
         return str(random.randint(
-            cls.settings.data['range_short']['min'],
-            cls.settings.data['range_short']['max']
+            cls.settings['range_short']['min'],
+            cls.settings['range_short']['max']
         ))
 
     @classmethod
     def generate_long_long(cls):
         return str(random.randint(
-            cls.settings.data['range_long_long']['min'],
-            cls.settings.data['range_long_long']['max']
+            cls.settings['range_long_long']['min'],
+            cls.settings['range_long_long']['max']
         ))
 
     @classmethod
     def generate_unsigned_int(cls):
         return str(random.randint(
-            cls.settings.data['range_unsigned_int']['min'],
-            cls.settings.data['range_unsigned_int']['max']
+            cls.settings['range_unsigned_int']['min'],
+            cls.settings['range_unsigned_int']['max']
         ))
 
     @classmethod
     def generate_double(cls):
         num = round(
             random.uniform(
-                cls.settings.data['range_double']['min'],
-                cls.settings.data['range_double']['max']
+                cls.settings['range_double']['min'],
+                cls.settings['range_double']['max']
             ), 3
         )
         str_num = str(num)
@@ -87,12 +81,14 @@ class GeneratorTemplate:
         return (
             "{"
             + ", ".join(
-                [cls.generate_int_range(0, 100) for _ in range(int(array_size))]
+                [cls.generate_int_range(0, 100)
+                 for _ in range(int(array_size))]
             )
             + "}"
         )
-    
+
     @classmethod
     def generate_string(cls, string_size):
-        body = "".join(random.choice(ascii_letters) for _ in range(int(string_size)))
+        body = "".join(random.choice(ascii_letters)
+                       for _ in range(int(string_size)))
         return '"' + body + '"'

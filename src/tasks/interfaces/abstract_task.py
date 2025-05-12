@@ -1,17 +1,24 @@
 from abc import ABC, abstractmethod
+from random import randint
 
 
 class ABCTask(ABC):
 
     name: str
+    description: str
 
-    @abstractmethod
-    def __init__(self, seed: int | None):
-        ...
+    def __init__(self, seed: int | None = None):
+        if seed is None:
+            seed = randint(0, 2 ** 32 - 1)
 
-    @abstractmethod
+        if seed < 0 or seed >= 2 ** 32:
+            seed = abs(seed)
+            seed %= 2 ** 32
+
+        self._seed = seed
+
     def get_seed(self):
-        return self.__seed
+        return self._seed
 
     @abstractmethod
     def get_condition_task(self):
