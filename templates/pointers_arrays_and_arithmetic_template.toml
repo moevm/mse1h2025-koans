@@ -23,6 +23,22 @@ int main() {
     if (p[2] != {[3]}) {
         return 3;
     }
+
+    /*
+     * Подумайте над этим примером: если p1 указывает на первый элемент,
+     * а p2 — на второй, сколько байт между этими адресами?
+     */
+    int *p1 = &a[0];
+    int *p2 = &a[1];
+    long byte_diff = (long)p2 - (long)p1;
+    int int_diff = p2 - p1;
+    if (byte_diff != {[4]}) {
+        return 4;
+    }
+    if (int_diff != {[5]}) {
+        return 5;
+    }
+
     return 0;
 }
 """
