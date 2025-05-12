@@ -1,7 +1,7 @@
 import re
 import random
 from string import ascii_letters
-from ..toml_loader import SettingsLoader
+from tasks.toml_loader import SettingsLoader
 
 
 def substitute_template(template: str, params: dict[str, str]) -> str:
