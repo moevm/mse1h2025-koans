@@ -2,8 +2,10 @@ from tasks import StoreTask
 from .about_array_task import AboutArrayTask
 
 group = 'Array'
-StoreTask.register_task(AboutArrayTask, group=group)
-
-__all__ = [
-    'AboutArrayTask',
+tasks_classes = [
+    AboutArrayTask,
 ]
+
+StoreTask.register_tasks(tasks_classes, group=group)
+
+__all__ = [task_class.name for task_class in tasks_classes]

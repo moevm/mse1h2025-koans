@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Iterable
 
 from tasks.interfaces import ABCTask
 
@@ -35,6 +35,12 @@ class StoreTask:
 
         cls.__tasks[name] = task_class
         cls.__group[group] = name
+
+    @classmethod
+    def register_tasks(cls, tasks_classes: Iterable[Type[ABCTask]],
+                       group: str = 'unspecified'):
+        for task_class in tasks_classes:
+            cls.register_task(task_class, group)
 
     @classmethod
     def __str__(cls) -> str:
