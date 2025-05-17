@@ -3,10 +3,10 @@ from tasks.implemented_tasks.task import Task
 from tasks.utils import substitute_template, GeneratorTemplate
 
 
-class FunctionPointersTask(Task):
-    name = 'function_pointers_task'
+class PointersFunctionTask(Task):
+    name = 'pointers_function_task'
     description = 'Указатели на функции'
-    path_template_toml = 'function_pointers_template.toml'
+    path_template_toml = 'pointers_function_template.toml'
 
     def __generate_param(self, seed: int) -> dict[str, str]:
         random.seed(seed)

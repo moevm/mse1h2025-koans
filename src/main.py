@@ -1,4 +1,4 @@
-from tasks import StoreTask
+from tasks.store_task import StoreTask
 import argparse
 
 
