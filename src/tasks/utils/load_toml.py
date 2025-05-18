@@ -15,7 +15,7 @@ class ReadOnlyTomlData(Generic[KT, VT]):
     def __getitem__(self, key: KT) -> VT | 'ReadOnlyTomlData[KT, VT]':
         if key not in self._data:
             raise KeyError(
-                f"Key/Index '{key}' not found. """
+                f"Key/Index '{key}' not found. "
                 f"Data loaded from: '{self._filepath}'"
             )
         value = self._data[key]

@@ -81,5 +81,6 @@ class App:
 
 
 if __name__ == '__main__':
-    app = App()
-    app.run()
+    print(StoreTask.__str__())
+    # app = App()
+    # app.run()

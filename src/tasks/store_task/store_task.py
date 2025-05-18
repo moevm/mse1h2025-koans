@@ -6,7 +6,7 @@ from tasks.interfaces import ABCTask
 class StoreTask:
 
     __tasks: dict[str, Type[ABCTask]] = {}
-    __group: dict[str, str] = {}
+    __group: dict[str, list[Type[ABCTask]]] = {}
 
     @classmethod
     def get_task(cls, task_name: str,
@@ -34,7 +34,7 @@ class StoreTask:
         name = task_class.name
 
         cls.__tasks[name] = task_class
-        cls.__group[group] = name
+        cls.__group[group] = cls.__group.get(group, []) + [task_class]
 
     @classmethod
     def register_tasks(cls, tasks_classes: Iterable[Type[ABCTask]],
@@ -61,10 +61,8 @@ class StoreTask:
             result.append(f"* Группа: {group}")
 
             group_tasks = [
-                (name, cls.__tasks[name].description)
-                for name, task_class in cls.__tasks.items()
-                if cls.__group.get(task_class.name, ('', ''))[0] == name
-                and cls.__group[task_class.name][0] == group
+                (task_class.name, task_class.description)
+                for task_class in cls.__group[group]
             ]
 
             for task_name, task_desc in sorted(group_tasks, key=lambda x: x[0]):
