@@ -101,6 +101,7 @@ class GeneratorTemplate:
         return f'"{string}"', f"{{ {', '.join(array_string)} }}"
 
     @classmethod
+
     def generate_int_range(cls, number_min, number_max):
         return str(random.randint(number_min, number_max))
 
@@ -123,4 +124,3 @@ class GeneratorTemplate:
         body = "".join(
             random.choice(ascii_letters) for _ in range(int(string_size))
         )
-        return '"' + body + '"'
