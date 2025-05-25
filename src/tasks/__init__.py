@@ -9,5 +9,5 @@ from .implemented_tasks import *
 
 
 __all__ = [
-    'StoreTask'
+    'StoreTask',
 ]
