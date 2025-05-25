@@ -23,19 +23,19 @@ class StringsReferenceCharacters(Task):
 
         params = {
             # Test 2: reference_characters
-            "string_2": GeneratorTemplate.generate_string(
+            "string_2": GeneratorTemplate.generate_string_from_struct(
                 self.config['strings_1']
             ),
-            "index_2_1": GeneratorTemplate.generate_index(
+            "index_2_1": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_2_2": GeneratorTemplate.generate_index(
+            "index_2_2": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_2_3": GeneratorTemplate.generate_index(
+            "index_2_3": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_2_4": GeneratorTemplate.generate_index(
+            "index_2_4": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
         }

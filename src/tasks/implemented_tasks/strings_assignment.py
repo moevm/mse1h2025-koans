@@ -23,19 +23,19 @@ class StringsAssignment(Task):
 
         params = {
             # Test 3: assignment
-            "string_3": GeneratorTemplate.generate_string(
+            "string_3": GeneratorTemplate.generate_string_from_struct(
                 self.config['strings_1']
             ),
-            "index_3_1": GeneratorTemplate.generate_index(
+            "index_3_1": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_3_2": GeneratorTemplate.generate_index(
+            "index_3_2": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_3_3": GeneratorTemplate.generate_index(
+            "index_3_3": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
-            "index_3_4": GeneratorTemplate.generate_index(
+            "index_3_4": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
             "char_3_1": GeneratorTemplate.generate_char(),

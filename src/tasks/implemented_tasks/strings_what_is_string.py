@@ -23,10 +23,10 @@ class StringsWhatIsString(Task):
 
         params = {
             # Test 1: what_is_string
-            "string_1": GeneratorTemplate.generate_string(
+            "string_1": GeneratorTemplate.generate_string_from_struct(
                 self.config['strings_1']
             ),
-            "index_1": GeneratorTemplate.generate_index(
+            "index_1": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
         }

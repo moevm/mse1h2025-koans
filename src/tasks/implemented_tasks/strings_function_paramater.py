@@ -23,7 +23,7 @@ class StringsFunctionParameter(Task):
 
         params = {
             # Test 7: function_paramater
-            "func_param_string_7": GeneratorTemplate.generate_array_string(
+            "func_param_string_7": GeneratorTemplate.generate_array_string_from_struct(
                 self.config['strings_3']
             ),
         }

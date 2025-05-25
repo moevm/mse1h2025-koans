@@ -21,10 +21,10 @@ class StringsFormating(Task):
         """
         random.seed(seed)
 
-        format_8_1 = GeneratorTemplate.generate_string(
+        format_8_1 = GeneratorTemplate.generate_string_from_struct(
             self.config['strings_4']
         )
-        format_8_2 = GeneratorTemplate.generate_string(
+        format_8_2 = GeneratorTemplate.generate_string_from_struct(
             self.config['strings_4']
         )
         len_string_8 = str(len(format_8_1) + len(format_8_2) + 5)

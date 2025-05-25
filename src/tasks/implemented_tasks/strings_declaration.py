@@ -21,7 +21,7 @@ class StringsDeclaration(Task):
         """
         random.seed(seed)
 
-        string_array_4, string_4 = GeneratorTemplate.generate_string_and_array(
+        string_array_4, string_4 = GeneratorTemplate.generate_string_and_array_from_struct(
             self.config['strings_1']
         )
 

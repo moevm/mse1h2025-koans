@@ -21,7 +21,7 @@ class StringsCopy(Task):
         """
         random.seed(seed)
 
-        string_6 = GeneratorTemplate.generate_string(
+        string_6 = GeneratorTemplate.generate_string_from_struct(
             self.config['strings_1']
         )
         len_stirng_6 = str(len(string_6))
@@ -30,7 +30,7 @@ class StringsCopy(Task):
             # Test 6: copy
             "string_6": string_6,
             "len_string_6": len_stirng_6,
-            "index_6": GeneratorTemplate.generate_index(
+            "index_6": GeneratorTemplate.generate_index_from_struct(
                 self.config['strings_1']
             ),
             "char_6": GeneratorTemplate.generate_char(),

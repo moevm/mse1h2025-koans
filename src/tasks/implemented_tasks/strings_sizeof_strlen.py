@@ -21,17 +21,17 @@ class StringsSizeofStrlen(Task):
         """
         random.seed(seed)
 
-        string_5 = GeneratorTemplate.generate_string(
+        string_5 = GeneratorTemplate.generate_string_from_struct(
             self.config['strings_1']
         )
         len_string_5 = str(len(string_5))
 
         params = {
             # Test 5: sizeof_strlen
-            "string_array_5_1": GeneratorTemplate.generate_array_string(
+            "string_array_5_1": GeneratorTemplate.generate_array_string_from_struct(
                 self.config['strings_2']
             ),
-            "string_ptr_5": GeneratorTemplate.generate_string(
+            "string_ptr_5": GeneratorTemplate.generate_string_from_struct(
                 self.config['strings_1']
             ),
             "string_5": string_5,
