@@ -19,3 +19,12 @@
 2. [Протоколы/записи созвонов](/resources/communications.md)
 3. [Инструкция](https://github.com/moevm/mse1h2025-koans/blob/main/README.md)
 4. [Демо (Скринкаст)](https://drive.google.com/file/d/1CSFg16Wlzb7CrazMEv1s6PZzmGOLwArH/view?usp=sharing)
+
+## Итерация 4
+
+1. [Презентация (PDF)](/resources/iter4.pdf)
+2. [Протоколы/записи созвонов](/resources/communications.md)
+3. [Инструкция](https://github.com/moevm/mse1h2025-koans/blob/main/README.md)
+4. [Демо (Скринкаст)](https://drive.google.com/file/d/1VaOV9xDfTq3fZH6SRZpDW5qKoppRTY2t/view?usp=sharing)
+
+
