@@ -20,7 +20,8 @@ def color_print(data, color=None, **kwargs):
 class App:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            formatter_class=argparse.RawTextHelpFormatter
+            formatter_class=argparse.RawTextHelpFormatter,
+            add_help=False
         )
         self.__generate_arguments()
         self.args = self.parser.parse_args()
@@ -28,29 +29,34 @@ class App:
 
     def __generate_arguments(self) -> None:
         self.parser.add_argument(
+            '-h', '--help',
+            action='store_true',
+            help='Показать help-сообщение с описанием доступных команд и параметров.'
+        )
+        self.parser.add_argument(
             '--method',
             help=(
-                'methods available: '
-                'code_tmp - get_code_template, '
-                'cond_task - get_condition_task, '
-                'tmp_coderunner - get_template_coderunner'
+                'доступные методы: '
+                'code_tmp - получить шаблон кода, '
+                'cond_task - получить условие задачи, '
+                'tmp_coderunner - получить шаблон для coderunner'
             ),
             nargs='+',
             type=str,
         )
         self.parser.add_argument(
-            '--name', help='name tasks', nargs='+', type=str
+            '--name', help='название задачи(задач)', nargs='+', type=str
         )
         self.parser.add_argument(
-            '--seed', help='seed generation number', type=int
-        )
-        self.parser.add_argument(
-            '--no-color', help='disables color printing', action='store_true'
-        )
-        self.parser.add_argument(
-            '--list-tasks', 
-            help='list all available tasks', 
+            '--list-tasks',
+            help='показать список всех доступных задач',
             action='store_true'
+        )
+        self.parser.add_argument(
+            '--seed', help='число для генерации (seed)', type=int
+        )
+        self.parser.add_argument(
+            '--no-color', help='отключает цветной вывод', action='store_true'
         )
 
     def __print_generate_data(self, name, methods):
@@ -65,22 +71,29 @@ class App:
 
         for method in methods:
             if method == 'code_tmp':
-                color_print('Code, name', color=color, end='')
-                print(f': {name}:\n{task.get_code_template()}')
+                code_temp = task.get_code_template()
+                color_print('Код', color=color, end='')
+                print(f': {name}:\n{code_temp}')
 
             elif method == 'cond_task':
-                color_print('Condition, name', color=color, end='')
-                print(f': {name}:\n{task.get_condition_task()}')
+                cond_task = task.get_condition_task()
+                color_print('Условие', color=color, end='')
+                print(f': {name}:\n{cond_task}')
 
             elif method == 'tmp_coderunner':
-                color_print('Coderunner, name', color=color, end='')
-                print(f': {name}:\n{task.get_template_coderunner()}')
+                temp_coderunner = task.get_template_coderunner()
+                color_print('Coderunner', color=color, end='')
+                print(f': {name}:\n{temp_coderunner}')
 
             else:
                 color_print(f'!!!Метода {method} не существует!!!',
                             color=('red' if not self.args.no_color else None))
 
     def run(self):
+        if self.args.help:
+            self.parser.print_help()
+            return
+
         if self.args.list_tasks:
             print(StoreTask.list_tasks())
             return
