@@ -47,6 +47,11 @@ class App:
         self.parser.add_argument(
             '--no-color', help='disables color printing', action='store_true'
         )
+        self.parser.add_argument(
+            '--list-tasks', 
+            help='list all available tasks', 
+            action='store_true'
+        )
 
     def __print_generate_data(self, name, methods):
         task = self.store_task.get_task(name, self.args.seed)
@@ -76,6 +81,10 @@ class App:
                             color=('red' if not self.args.no_color else None))
 
     def run(self):
+        if self.args.list_tasks:
+            print(StoreTask.list_tasks())
+            return
+
         for name in self.args.name:
             self.__print_generate_data(name, self.args.method)
 

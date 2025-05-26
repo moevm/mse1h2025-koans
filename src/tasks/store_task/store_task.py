@@ -43,7 +43,7 @@ class StoreTask:
             cls.register_task(task_class, group)
 
     @classmethod
-    def __str__(cls) -> str:
+    def list_tasks(cls) -> str:
         if not cls.__group:
             return "=== Хранилище задач ===\n(пусто)"
 
