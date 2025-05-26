@@ -55,6 +55,9 @@ class ReadOnlyTomlData(Generic[KT, VT]):
     def items(self):
         return self._data.items()
 
+    def to_dict(self):
+        return self._data
+
 
 def load_toml(file_path: Path) -> ReadOnlyTomlData[str, Any]:
     try:

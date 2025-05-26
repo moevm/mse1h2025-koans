@@ -3,7 +3,9 @@ from tasks.utils import substitute_template, ValueGenerator, load_toml
 from tasks import TEMPLATES_DIR
 
 
-TEMPLATE_PATH = TEMPLATES_DIR / 'basic_template.toml'
+TEMPLATE_PATH = TEMPLATES_DIR / 'basic' / 'basic_template.toml'
+CODERUNNER_BASE_TEMPLATE = (TEMPLATES_DIR / 'coderunner_template'
+                            / 'base_tamplate.toml')
 
 
 class BasicTask(ABCTask):
@@ -11,6 +13,7 @@ class BasicTask(ABCTask):
     name = 'basic_task'
     description = 'Базовое задание на сравнение чисел'
     _template = load_toml(TEMPLATE_PATH)
+    _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
 
     def __generate_param(self) -> dict[str, str]:
         """
@@ -40,6 +43,8 @@ class BasicTask(ABCTask):
         return substitute_template(template, params)
 
     def get_template_coderunner(self) -> str:
-        template = self._template['template_coderunner']
+        template = self._coderunner_template['template_coderunner']
         params = {'code': self.get_code_template()}
+        params |= {'ban_words': str(self._template['ban_words'])}
+        params |= {'error_messages': str(self._template['error_messages'][0])}
         return substitute_template(template, params)

@@ -1,0 +1,119 @@
+template_code = """
+#include <stdlib.h>
+
+
+int main() {
+    char char_variable = {[1]};
+
+    if (char_variable != $$char_ans$$)
+        return 1;
+
+    short short_variable = {[2]};
+
+    if (short_variable != $$short_ans$$)
+        return 2;
+
+    int int_variable = {[3]};
+
+    if (int_variable != $$int_ans$$)
+        return 3;
+
+    long long ll_variable = {[4]};
+
+    if (ll_variable != $$ll_ans$$)
+        return 4;
+
+    unsigned int u_int_variable = {[5]};
+
+    if (u_int_variable > $$u_int_ans$$)
+        return 5;
+
+    double dounble_variable_1 = {[6]};
+
+    if (abs(dounble_variable_1 - $$double_1_ans$$) >= 0.000001)
+        return 6;
+
+    double dounble_variable_2 = {[7]};
+
+    if (abs(dounble_variable_2 - $$double_2_ans$$) >= 0.000001)
+        return 7;
+    
+    return 0;
+}
+"""
+
+template_coderunner = '''
+import subprocess, sys, re
+
+
+def find_substrings(text, substrings): 
+    pattern = re.compile('|'.join(map(re.escape, substrings)))
+    return pattern.findall(text)
+
+
+def check_student_answers_for_substrings(student_answers,substrings):
+    for answer in student_answers:
+        found_substring = find_substrings(answer, substrings)
+        if found_substring:
+            print(f"Your answer has {set(found_substring)} in this answer", answer)
+            sys.exit()
+
+
+def replacer(match):
+    key = match.group(1)
+    return template.get(key, match.group(0))
+
+
+student_answer = {{ STUDENT_ANSWER }}
+
+banned_words = ['exit', ';', 'return']
+check_student_answers_for_substrings(student_answer, banned_words)
+
+template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
+
+code = """
+$$code$$
+"""
+
+pattern = re.compile(r'\{\[(\d+)\]\}')
+student_code = pattern.sub(replacer, code)
+
+with open("prog.c", "w") as src:
+    print(student_code, file=src)
+
+# Compile
+{% if QUESTION.parameters.cflags is defined %}
+cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
+{% else %}
+cflags = "-std=c99 -Wall -Werror"
+{% endif %}
+
+return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
+
+if return_code != 0:
+    sys.exit()
+
+try:
+    output = subprocess.check_output(["./prog"], universal_newlines=True)
+    print('Ok')
+except subprocess.CalledProcessError as e:
+    if e.returncode > 0:
+        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
+    else:
+        if e.output:
+            print(e.output, file=sys.stderr)
+'''
+
+template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+
+
+ban_words = ["exit", ";", "return", "variable"]
+
+[[error_messages]]
+"1" = "char_variable не соответствует ожидаемому значению"
+"2" = "short_variable не соответствует ожидаемому значению"
+"3" = "int_variable не соответствует ожидаемому значению"
+"4" = "ll_variable не соответствует ожидаемому значению"
+"5" = "u_int_variable превышает ожидаемое значение"
+"6" = "dounble_variable_1 выходит за допустимую погрешность"
+"7" = "dounble_variable_2 выходит за допустимую погрешность"
