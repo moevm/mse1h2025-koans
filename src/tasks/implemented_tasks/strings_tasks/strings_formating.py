@@ -14,7 +14,7 @@ CONFIG_PATH = (SETTINGS_DIR / 'strings_settings'
 class StringsFormating(ABCTask):
 
     name = 'strings_formating_task'
-    description = '...'
+    description = 'Форматирование строк'
     _template = load_toml(TEMPLATE_PATH)
     _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
     _config = load_toml(CONFIG_PATH)

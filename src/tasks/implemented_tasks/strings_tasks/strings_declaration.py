@@ -14,7 +14,7 @@ CONFIG_PATH = (SETTINGS_DIR / 'strings_settings'
 class StringsDeclaration(ABCTask):
 
     name = 'strings_declaration_task'
-    description = 'Объявление строк'
+    description = 'Инициализация строк'
     _template = load_toml(TEMPLATE_PATH)
     _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
     _config = load_toml(CONFIG_PATH)

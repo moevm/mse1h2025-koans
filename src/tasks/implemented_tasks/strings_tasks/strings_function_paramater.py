@@ -14,7 +14,7 @@ CONFIG_PATH = (SETTINGS_DIR / 'strings_settings'
 class StringsFunctionParameter(ABCTask):
 
     name = 'strings_function_paramater_task'
-    description = 'Строки как параметры функций'
+    description = 'Строковые параметры'
     _template = load_toml(TEMPLATE_PATH)
     _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
     _config = load_toml(CONFIG_PATH)

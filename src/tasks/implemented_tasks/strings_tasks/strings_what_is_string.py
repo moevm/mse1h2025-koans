@@ -14,7 +14,7 @@ CONFIG_PATH = (SETTINGS_DIR / 'strings_settings'
 class StringsWhatIsString(ABCTask):
 
     name = 'strings_what_is_string_task'
-    description = '...'
+    description = 'Знакомство со строковым типом данных'
     _template = load_toml(TEMPLATE_PATH)
     _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
     _config = load_toml(CONFIG_PATH)
