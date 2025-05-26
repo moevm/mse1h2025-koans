@@ -43,5 +43,5 @@ docker run --rm koans_generator --method code_tmp --name basic_task
 Также можно сгенерировать несколько методов по нескольким именам, используя декартово произведение:
 
 ```bash
-docker run --rm koans_generator --method code_tmp tmp_coderunner --name basic_task last_task --seed 1235
+docker run --rm koans_generator --method code_tmp tmp_coderunner --name basic_task about_array_task --seed 1235
 ```
