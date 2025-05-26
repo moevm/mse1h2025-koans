@@ -32,7 +32,7 @@ int main() {
 }
 """
 
-template_condition = "Заполните $$len_string_8$$, $$format_8_1$$ и $$format_8_2$$ так, чтобы sprintf сформировала строку, соответствующую EXPECTED_RESULT_1, и программа завершилась с кодом 0."
+template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
 
 ban_words = ["exit", "return", "[", "goto"]
 
