@@ -1,4 +1,3 @@
-
 template_code = """
 
 static int static_function(int);
@@ -8,7 +7,11 @@ int global_var = $$global_val$$;
 int modify_global()
 {
     /*
-    * Мы изменяем глобальную переменную, которая видна всей программе.
+    * Глобальные переменные:
+    * - Видны всей программе
+    * - Инициализируются нулем по умолчанию
+    * - Существуют в течение всего времени выполнения программы
+    * - Располагаются в сегменте данных
     */
     global_var += $$global_plus$$;
     return global_var;
@@ -17,8 +20,11 @@ int modify_global()
 int modify_local()
 {
     /*
-    * Мы изменяем локальную переменную, которая размещается и инициализируется в стеке.
-    * При каждом вызове функции она заново инициализируется и изменяется одинаково.
+    * Локальные (автоматические) переменные:
+    * - Видны только внутри функции
+    * - Не инициализируются по умолчанию
+    * - Создаются при каждом вызове функции
+    * - Располагаются в стеке
     */
     int i = $$local_val$$;
     i += $$local_plus$$;
@@ -28,13 +34,11 @@ int modify_local()
 int modify_local_static()
 {
     /*
-    * Локальные static переменные инициализируются только один раз
-    * Они доступны только внутри той функции, в которой объявлены,
-    * поскольку их имя известно лишь в пределах этой функции.
-    * Это позволяет сохранять значение переменной между вызовами функции.
-    *
-    * Ключевое слово static имеет двойное значение в зависимости от области видимости.
-    * В следующей функции это будет показано.
+    * Статические локальные переменные:
+    * - Видны только внутри функции
+    * - Инициализируются один раз при первом вызове
+    * - Сохраняют значение между вызовами
+    * - Располагаются в сегменте данных
     */
     static int i = $$static_val$$;
     i += $$static_plus$$;
@@ -44,31 +48,30 @@ int modify_local_static()
 
 int main() {
     /*
-    * Функции являются основной областью видимости в языке C.
-    * Местоположение (область действия) переменных определяется тем, где они объявлены
-    * относительно функций.
-    *
-    * Мы рассмотрим три типа переменных: глобальные, локальные и локальные static,
-    * используя три функции.
+    * Области видимости в C:
+    * 1. Глобальные переменные - доступны везде после объявления
+    * 2. Локальные переменные - доступны только внутри блока
+    * 3. Static локальные - сохраняют состояние между вызовами
+    * 4. Static глобальные - видны только в текущем файле
     */
 
+    // Проверка глобальной переменной (3 изменения)
     modify_global();
     modify_global();
-    
     if (modify_global() != {[1]}) {
         return 1;
     }
 
+    // Проверка локальной переменной (3 вызова, но каждый раз новая)
     modify_local();
     modify_local();
-
     if (modify_local() != {[2]}) {
         return 2;
     }
 
+    // Проверка static локальной (сохраняет состояние между вызовами)
     modify_local_static();
     modify_local_static();
-    
     if (modify_local_static() != {[3]}) {
         return 3;
     }
@@ -77,10 +80,10 @@ int main() {
 }
 
 /*
-* Ключевое слово static, использованное на уровне файла (вне функций),
-* делает переменную или функцию видимой только внутри этого файла.
+* Static функции:
+* - Видны только в текущем файле
+* - Позволяют скрыть реализацию от других модулей
 */
-
 static int static_int = $$static_val_func$$;
 
 static int static_function(int n)
@@ -93,54 +96,13 @@ static int static_function(int n)
 }
 """
 
+template_condition = "Заполните значения переменных так, чтобы программа завершалась с кодом 0, учитывая особенности областей видимости."
 
+ban_words = ["exit", ";", "return", "[", "goto"]
 
-
-
-
-template_coderunner = '''
-import subprocess, sys, re
-def find_substrings(text, substrings): 
-    pattern = re.compile('|'.join(map(re.escape, substrings)))
-    return pattern.findall(text)
-def check_student_answers_for_substrings(student_answers,substrings):
-    for answer in student_answers:
-        found_substring = find_substrings(answer, substrings)
-        if found_substring:
-            print(f"Your answer has {set(found_substring)} in this answer", answer)
-            sys.exit()
-def replacer(match):
-    key = match.group(1)
-    return template.get(key, match.group(0))
-student_answer = {{ STUDENT_ANSWER }}
-banned_words = ['exit', ';', 'return', 'global_var', 'i', '(']
-check_student_answers_for_substrings(student_answer, banned_words)
-template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
-code = """
-$$code$$
-"""
-pattern = re.compile(r'\{\[(\d+)\]\}')
-student_code = pattern.sub(replacer, code)
-with open("prog.c", "w") as src:
-    print(student_code, file=src)
-# Compile
-{% if QUESTION.parameters.cflags is defined %}
-cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
-{% else %}
-cflags = "-std=c99 -Wall -Werror"
-{% endif %}
-return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
-if return_code != 0:
-    sys.exit()
-try:
-    output = subprocess.check_output(["./prog"], universal_newlines=True)
-    print('Ok')
-except subprocess.CalledProcessError as e:
-    if e.returncode > 0:
-        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
-    else:
-        if e.output:
-            print(e.output, file=sys.stderr)
-'''
-
-template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+[[error_messages]]
+"1" = "Некорректное значение глобальной переменной после изменений"
+"2" = "Локальная переменная не была правильно проинициализирована"
+"3" = "Static локальная переменная не сохранила состояние между вызовами"
+"4" = "Ошибка в работе static функции"
+"5" = "Некорректное значение static глобальной переменной"

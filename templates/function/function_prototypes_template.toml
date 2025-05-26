@@ -1,4 +1,3 @@
-
 template_code = """
 
 /*
@@ -10,19 +9,23 @@ template_code = """
  * которые подключаются с помощью директивы #include в тех файлах,
  * где функции используются.
  *
- * В прототипе функции не обязательно указывать имена аргументов — 
+ * В прототипе функции не обязательно указывать имена аргументов - 
  * достаточно указать их типы.
  * Имена можно добавлять для повышения читаемости, 
  * но это остаётся на усмотрение программиста.
+ *
+ * Прототипы позволяют компилятору проверить типы аргументов
+ * и возвращаемого значения при вызове функции.
  */
-
 
 int function_prototype(int, int);
 
 int main() {
     
-    // Мы проверим, может ли наша функция быть вызвана с тех пор, как она была объявлена
-
+    /*
+    * Проверка работы функции по её прототипу
+    * Функция должна вернуть ожидаемую сумму двух чисел
+    */
     if (function_prototype($$number_one$$, $$number_two$$) != {[1]}) {
         return 1;
     }
@@ -30,60 +33,19 @@ int main() {
     return 0;
 }
 
-// Вот реализация прототипа
-
+/*
+ * Реализация функции, объявленной ранее через прототип
+ * Функция выполняет сложение двух целых чисел
+ */
 int function_prototype(int i, int j) { return i + j; }
 
 """
 
-
-
-
-
-
-template_coderunner = '''
-import subprocess, sys, re
-def find_substrings(text, substrings): 
-    pattern = re.compile('|'.join(map(re.escape, substrings)))
-    return pattern.findall(text)
-def check_student_answers_for_substrings(student_answers,substrings):
-    for answer in student_answers:
-        found_substring = find_substrings(answer, substrings)
-        if found_substring:
-            print(f"Your answer has {set(found_substring)} in this answer", answer)
-            sys.exit()
-def replacer(match):
-    key = match.group(1)
-    return template.get(key, match.group(0))
-student_answer = {{ STUDENT_ANSWER }}
-banned_words = ['exit', ';', 'return', '(']
-check_student_answers_for_substrings(student_answer, banned_words)
-template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
-code = """
-$$code$$
-"""
-pattern = re.compile(r'\{\[(\d+)\]\}')
-student_code = pattern.sub(replacer, code)
-with open("prog.c", "w") as src:
-    print(student_code, file=src)
-# Compile
-{% if QUESTION.parameters.cflags is defined %}
-cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
-{% else %}
-cflags = "-std=c99 -Wall -Werror"
-{% endif %}
-return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
-if return_code != 0:
-    sys.exit()
-try:
-    output = subprocess.check_output(["./prog"], universal_newlines=True)
-    print('Ok')
-except subprocess.CalledProcessError as e:
-    if e.returncode > 0:
-        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
-    else:
-        if e.output:
-            print(e.output, file=sys.stderr)
-'''
-
 template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+
+ban_words = ["exit", ";", "return", "["]
+
+[[error_messages]]
+"1" = "Функция вернула неверный результат сложения"
+"2" = "Некорректные аргументы при вызове функции"
+"3" = "Ошибка при работе с прототипом функции"

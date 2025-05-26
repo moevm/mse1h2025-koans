@@ -18,17 +18,10 @@ class ValueGenerator:
 
     @classmethod
     def generate_name(cls, name_list):
-        """
-        |Возвращает случайную строку из переданного
-        списка имён.
-        """
         return random.choice(name_list)
 
     @classmethod
     def generate_char(cls):
-        """
-        Возвращаем случайное значение переменной char.
-        """
         return "'" + random.choice(ascii_letters) + "'"
 
     @classmethod

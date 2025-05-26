@@ -3,6 +3,9 @@ template_code = """
 /*
  * Указатели — это визитная карточка языка C и одна из самых сложных концепций
  * для программистов, привыкших к языкам, где указатели не используются явно.
+ *
+ * Указатель - это переменная, которая хранит адрес другой переменной в памяти.
+ * Размер указателя зависит от архитектуры системы (обычно 4 или 8 байт).
  */
 
 int main() {
@@ -15,18 +18,26 @@ int main() {
      * расположенное между именем типа и именем переменной.
      *
      * Оператор '&' возвращает адрес переменной.
+     *
+     * Важно: тип указателя должен соответствовать типу переменной,
+     * на которую он указывает.
      */
 
     /* Оператор '*' при использовании не в объявлении служит для разыменования
      * указателя, т.е. получения значения по адресу.
      */
 
+    // Проверка размера целочисленной переменной
     if (sizeof(i) != {[1]}) {
         return 1;
     }
+    
+    // Проверка размера указателя (зависит от архитектуры)
     if (sizeof(iptr) != {[2]}) {
         return 2;
     }
+    
+    // Проверка значения через указатель
     if (*jptr != {[3]}) {
         return 3;
     }
@@ -34,86 +45,45 @@ int main() {
     /*
      * Объявление нескольких переменных, смешивающее указатели и обычные типы,
      * может быть сложным для понимания в зависимости от позиции '*'.
+     * Звездочка относится к конкретной переменной, а не к типу.
      */
 
-    int k, *l;
-    int* m, n;
+    int k, *l;  // k - int, l - указатель на int
+    int* m, n;  // m - указатель на int, n - обычный int
+    
+    // Проверка размера обычной переменной int
     if (sizeof(k) != {[4]}) {
         return 4;
     }
+    
+    // Проверка размера указателя
     if (sizeof(l) != {[5]}) {
         return 5;
     }
+    
+    // Проверка размера указателя (альтернативный синтаксис объявления)
     if (sizeof(m) != {[6]}) {
         return 6;
     }
+    
+    // Проверка размера обычной переменной int (в смешанном объявлении)
     if (sizeof(n) != {[7]}) {
         return 7;
     }
+    
     return 0;
 }
 """
 
-template_coderunner = '''
-import subprocess, sys, re
+template_condition = "Заполните пропущенные значения, чтобы программа завершилась с кодом 0. Учтите: размер int обычно 4 байта."
 
+ban_words = ["exit", "return", "[", "goto", "malloc"]
 
-def find_substrings(text, substrings):
-    pattern = re.compile('|'.join(map(re.escape, substrings)))
-    return pattern.findall(text)
-
-
-def check_student_answers_for_substrings(student_answers,substrings):
-    for answer in student_answers:
-        found_substring = find_substrings(answer, substrings)
-        if found_substring:
-            print(f"Your answer has {set(found_substring)} in this answer", answer)
-            sys.exit()
-
-
-def replacer(match):
-    key = match.group(1)
-    return template.get(key, match.group(0))
-
-
-student_answer = {{ STUDENT_ANSWER }}
-
-banned_words = ['exit', ';', 'return', '(']
-check_student_answers_for_substrings(student_answer, banned_words)
-
-template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
-
-code = """
-$$code$$
-"""
-
-pattern = re.compile(r'\{\[(\d+)\]\}')
-student_code = pattern.sub(replacer, code)
-
-with open("prog.c", "w") as src:
-    print(student_code, file=src)
-
-# Compile
-{% if QUESTION.parameters.cflags is defined %}
-cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
-{% else %}
-cflags = "-std=c99 -Wall -Werror"
-{% endif %}
-
-return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
-
-if return_code != 0:
-    sys.exit()
-
-try:
-    output = subprocess.check_output(["./prog"], universal_newlines=True)
-    print('Ok')
-except subprocess.CalledProcessError as e:
-    if e.returncode > 0:
-        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
-    else:
-        if e.output:
-            print(e.output, file=sys.stderr)
-'''
-
-template_condition = "Заполните пропущенные значения, чтобы программа завершилась с кодом 0. Определите размеры переменных и значение, на которое указывает jptr."
+[[error_messages]]
+"1" = "Некорректный размер переменной типа int"
+"2" = "Некорректный размер указателя на int"
+"3" = "Неверное значение при разыменовании указателя jptr"
+"4" = "Неправильный размер переменной k (ожидается размер int)"
+"5" = "Неправильный размер указателя l"
+"6" = "Неправильный размер указателя m"
+"7" = "Неправильный размер переменной n (ожидается размер int)"

@@ -3,38 +3,52 @@ template_code = """
 /*
  * В C указатели и массивы тесно связаны.
  * Поскольку мы уже немного знакомы с массивами, сосредоточимся на аспекте указателей.
+ *
+ * Имя массива в выражениях преобразуется в указатель на его первый элемент.
+ * Арифметика указателей учитывает размер типа данных (для int обычно 4 байта).
  */
 
 int main() {
     int a[3] = { $$val1$$, $$val2$$, $$val3$$ };
-    int *p = a;
+    int *p = a;  // Эквивалентно int *p = &a[0]
 
-    /* Теперь, когда p указывает на массив, мы можем обращаться к нему как к массиву
-     * и выполнять арифметику указателей.
-     * Арифметика указателей 'умная': она учитывает размер типа данных.
+    /* Теперь, когда p указывает на массив, мы можем:
+     * 1. Обращаться к элементам через разыменование указателя
+     * 2. Использовать арифметику указателей
+     * 3. Использовать синтаксис массива с указателем
      */
 
+    // Проверка первого элемента через разыменование указателя
     if (*p != {[1]}) {
         return 1;
     }
+    
+    // Проверка второго элемента через арифметику указателей
     if (*(p + 1) != {[2]}) {
         return 2;
     }
+    
+    // Проверка третьего элемента через синтаксис массива
     if (p[2] != {[3]}) {
         return 3;
     }
 
     /*
-     * Подумайте над этим примером: если p1 указывает на первый элемент,
-     * а p2 — на второй, сколько байт между этими адресами?
+     * Разница между указателями:
+     * - В байтах (при приведении к long)
+     * - В элементах массива (разница указателей)
      */
     int *p1 = &a[0];
     int *p2 = &a[1];
-    long byte_diff = (long)p2 - (long)p1;
-    int int_diff = p2 - p1;
+    long byte_diff = (long)p2 - (long)p1;  // Разница в байтах
+    int int_diff = p2 - p1;               // Разница в элементах
+    
+    // Проверка разницы адресов в байтах
     if (byte_diff != {[4]}) {
         return 4;
     }
+    
+    // Проверка разницы в элементах массива
     if (int_diff != {[5]}) {
         return 5;
     }
@@ -43,66 +57,13 @@ int main() {
 }
 """
 
-template_coderunner = '''
-import subprocess, sys, re
+template_condition = "Заполните пропущенные значения, чтобы программа завершилась с кодом 0. Учтите: разница между адресами элементов массива типа int равна размеру int (обычно 4 байта)."
 
+ban_words = ["exit", "return", "[", "goto", "malloc"]
 
-def find_substrings(text, substrings):
-    pattern = re.compile('|'.join(map(re.escape, substrings)))
-    return pattern.findall(text)
-
-
-def check_student_answers_for_substrings(student_answers,substrings):
-    for answer in student_answers:
-        found_substring = find_substrings(answer, substrings)
-        if found_substring:
-            print(f"Your answer has {set(found_substring)} in this answer", answer)
-            sys.exit()
-
-
-def replacer(match):
-    key = match.group(1)
-    return template.get(key, match.group(0))
-
-
-student_answer = {{ STUDENT_ANSWER }}
-
-banned_words = ['exit', ';', 'return', '(']
-
-check_student_answers_for_substrings(student_answer, banned_words)
-template = {str(ind + 1): s for ind, s in enumerate(student_answer)}
-
-code = """
-$$code$$
-"""
-
-pattern = re.compile(r'\{\[(\d+)\]\}')
-student_code = pattern.sub(replacer, code)
-
-with open("prog.c", "w") as src:
-    print(student_code, file=src)
-
-# Compile
-{% if QUESTION.parameters.cflags is defined %}
-cflags = """{{ QUESTION.parameters.cflags | e('py') }}"""
-{% else %}
-cflags = "-std=c99 -Wall -Werror"
-{% endif %}
-
-return_code = subprocess.call("gcc {0} -o prog prog.c".format(cflags).split())
-
-if return_code != 0:
-    sys.exit()
-
-try:
-    output = subprocess.check_output(["./prog"], universal_newlines=True)
-    print('Ok')
-except subprocess.CalledProcessError as e:
-    if e.returncode > 0:
-        print(f'Программа завершилась с кодом {e.returncode}, а ожидался код 0.')
-    else:
-        if e.output:
-            print(e.output, file=sys.stderr)
-'''
-
-template_condition = "Заполните пропущенные значения, чтобы программа завершилась с кодом 0. Определите значения, получаемые при разыменовании указателя и использовании арифметики указателей."
+[[error_messages]]
+"1" = "Неверное значение первого элемента массива при разыменовании указателя"
+"2" = "Неверное значение второго элемента при арифметике указателей"
+"3" = "Неверное значение третьего элемента при обращении через синтаксис массива"
+"4" = "Некорректная разница между адресами в байтах"
+"5" = "Некорректная разница между указателями в элементах массива"

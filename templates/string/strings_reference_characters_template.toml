@@ -1,0 +1,26 @@
+template_code = """
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+    
+int main() {
+    // Test 2: reference_characters
+    char *string = $$string_2$$;
+        
+    if ({[1]} != string[$$index_2_1$$])
+        return 1;
+    
+    if ({[2]} != (string + $$index_2_2$$)[$$index_2_3$$])
+        return 1;
+    
+    if (*string + $$index_2_4$$ {[3]} *(string + $$index_2_4$$))
+        return 1;
+
+    return 0;
+}
+"""
+
+template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+
+
+ban_words = ["exit", ";", "return", "["]

@@ -1,0 +1,27 @@
+template_code = """
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    // Test 1: what_is_string
+    char *string = $$string_1$$;
+    
+    if (string {[1]} NULL)
+        return 1;
+    
+    if ({[2]} != *string)
+        return 1;
+    
+    if ({[3]} != *(string + $$index_1$$))
+        return 1;
+
+    return 0;
+}
+"""
+
+template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+
+
+ban_words = ["exit", ";", "return", "["]

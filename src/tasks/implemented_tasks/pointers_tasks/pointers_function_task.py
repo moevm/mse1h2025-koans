@@ -4,14 +4,14 @@ from tasks import TEMPLATES_DIR
 
 
 TEMPLATE_PATH = (TEMPLATES_DIR / 'pointer'
-                 / 'pointers_and_addresses_template.toml')
+                 / 'pointers_function_template.toml')
 CODERUNNER_BASE_TEMPLATE = (TEMPLATES_DIR / 'coderunner_template'
                             / 'base_tamplate.toml')
 
 
-class PointersAndAddressesTask(ABCTask):
-    name = 'pointers_and_addresses_task'
-    description = 'Знакомство с указателями и адресами'
+class PointersFunctionTask(ABCTask):
+    name = 'pointers_function_task'
+    description = 'Указатели на функции'
     _template = load_toml(TEMPLATE_PATH)
     _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
 
@@ -22,8 +22,9 @@ class PointersAndAddressesTask(ABCTask):
         ValueGenerator.set_seed(self._seed)
 
         params = {
-            "int_val": ValueGenerator.generate_int(),
-            "another_int_val": ValueGenerator.generate_int(),
+            "val1": ValueGenerator.generate_int_range(1, 10),
+            "val2": ValueGenerator.generate_int_range(1, 10),
+            "val3": ValueGenerator.generate_int_range(1, 10),
         }
         return params
 

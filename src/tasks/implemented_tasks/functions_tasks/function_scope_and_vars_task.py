@@ -1,43 +1,52 @@
-import random
-from tasks.implemented_tasks.task import Task
-from tasks.utils import substitute_template, GeneratorTemplate
+from tasks.interfaces import ABCTask
+from tasks.utils import substitute_template, ValueGenerator, load_toml
+from tasks import TEMPLATES_DIR
 
 
-class FunctionScopeAndVarsTask(Task):
+TEMPLATE_PATH = (TEMPLATES_DIR / 'function'
+                 / 'function_scope_and_vars_template.toml')
+CODERUNNER_BASE_TEMPLATE = (TEMPLATES_DIR / 'coderunner_template'
+                            / 'base_tamplate.toml')
+
+
+class FunctionScopeAndVarsTask(ABCTask):
 
     name = 'function_scope_and_vars_task'
     description = 'Знакомство с областью видимости переменных'
-    path_template_toml = 'function_scope_and_vars_template.toml'
+    _template = load_toml(TEMPLATE_PATH)
+    _coderunner_template = load_toml(CODERUNNER_BASE_TEMPLATE)
 
-    def __generate_param(self, seed: int) -> dict[str, str]:
+    def __generate_param(self) -> dict[str, str]:
         """
         функция возвращает словарь (шаблон: подстановка)
         """
-        random.seed(seed)
+        ValueGenerator.set_seed(self._seed)
 
         params = {
-            "static_plus_func": GeneratorTemplate.generate_int_range(-3, 5),
-            "static_val_func": GeneratorTemplate.generate_int_range(-3, 10),
-            "global_val": GeneratorTemplate.generate_int_range(-3, 10),
-            "global_plus": GeneratorTemplate.generate_int_range(-3, 5),
-            "static_val": GeneratorTemplate.generate_int_range(-3, 10),
-            "static_plus": GeneratorTemplate.generate_int_range(-3, 5),
-            "local_val": GeneratorTemplate.generate_int_range(-3, 10),
-            "local_plus": GeneratorTemplate.generate_int_range(-3, 5),
+            "static_plus_func": ValueGenerator.generate_int_range(-3, 5),
+            "static_val_func": ValueGenerator.generate_int_range(-3, 10),
+            "global_val": ValueGenerator.generate_int_range(-3, 10),
+            "global_plus": ValueGenerator.generate_int_range(-3, 5),
+            "static_val": ValueGenerator.generate_int_range(-3, 10),
+            "static_plus": ValueGenerator.generate_int_range(-3, 5),
+            "local_val": ValueGenerator.generate_int_range(-3, 10),
+            "local_plus": ValueGenerator.generate_int_range(-3, 5),
         }
 
         return params
 
-    def _generate_condition_task(self, seed: int) -> str:
+    def get_condition_task(self) -> str:
         description = self._template['template_condition']
         return description
 
-    def _generate_code_template(self, seed: int) -> str:
+    def get_code_template(self) -> str:
         template = self._template['template_code']
-        params = self.__generate_param(seed)
+        params = self.__generate_param()
         return substitute_template(template, params)
 
-    def _generate_template_coderunner(self, seed: int) -> str:
-        template = self._template['template_coderunner']
-        params = {'code': self._generate_code_template(seed)}
+    def get_template_coderunner(self) -> str:
+        template = self._coderunner_template['template_coderunner']
+        params = {'code': self.get_code_template()}
+        params |= {'ban_words': str(self._template['ban_words'])}
+        params |= {'error_messages': str(self._template['error_messages'][0])}
         return substitute_template(template, params)

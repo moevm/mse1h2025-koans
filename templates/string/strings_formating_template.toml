@@ -1,0 +1,23 @@
+template_code = """
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+        
+int main() {
+    // Test 8: formating_strings
+    char *string1 = malloc($$len_string_8$$);
+    sprintf(string1, "%s %s!", $$format_8_1$$, $$format_8_2$$);
+    
+    if (strcmp({[1]}, string1) != 0)
+        return 1;
+    
+    free(string1);
+
+    return 0;
+}
+"""
+
+template_condition = "Заполните пропущенные значения переменных таким образом, чтобы программа завершалась с кодом 0."
+
+
+ban_words = ["exit", ";", "return", "["]
