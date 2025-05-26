@@ -73,6 +73,28 @@ class ValueGenerator:
         return str_num
 
     @classmethod
+    def generate_string_from_struct(cls, strings_struct):
+        string = random.choice(strings_struct['strings'])
+        return f'"{string}"'
+
+    @classmethod
+    def generate_index_from_struct(cls, strings_struct):
+        index = str(random.randint(0, strings_struct['max_index']))
+        return index
+
+    @classmethod
+    def generate_array_string_from_struct(cls, strings_struct):
+        string = random.choice(strings_struct['strings'])
+        array_string = list(map(lambda x: "'" + x + "'", string))
+        return f"{{ {', '.join(array_string)} }}"
+
+    @classmethod
+    def generate_string_and_array_from_struct(cls, strings_struct):
+        string = random.choice(strings_struct['strings'])
+        array_string = list(map(lambda x: "'" + x + "'", string))
+        return f'"{string}"', f"{{ {', '.join(array_string)} }}"
+
+    @classmethod
     def generate_int_range(cls, number_min, number_max):
         return str(random.randint(number_min, number_max))
 
@@ -89,6 +111,7 @@ class ValueGenerator:
 
     @classmethod
     def generate_string(cls, string_size):
-        body = "".join(random.choice(ascii_letters)
-                       for _ in range(int(string_size)))
+        body = "".join(
+            random.choice(ascii_letters) for _ in range(int(string_size))
+        )
         return '"' + body + '"'
