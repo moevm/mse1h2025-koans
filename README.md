@@ -28,12 +28,6 @@ docker rmi koans_generator
 - `--name` — имена заданий (например, `some_task`) *(обязательный флаг, поддерживает множество аргументов)*.
 - `--seed` — задает семя случайных параметров задания.
 
-Чтобы прочитать описание доступных флагов и команд, запустите контейнер с флагом `-h`:
-
-```bash
-docker run --rm koans_generator -h
-```
-
 Для вызова метода у заданной таски используйте следующую команду:
 
 ```bash
@@ -44,4 +38,16 @@ docker run --rm koans_generator --method code_tmp --name basic_task
 
 ```bash
 docker run --rm koans_generator --method code_tmp tmp_coderunner --name basic_task about_array_task --seed 1235
+```
+
+Для просмотра всех существующих заданий с их системными и фактическими наименованиями, используйте команду:
+
+```bash
+docker run --rm koans_generator --list-tasks
+```
+
+Чтобы прочитать описание доступных флагов и команд, запустите контейнер с флагом `-h`:
+
+```bash
+docker run --rm koans_generator -h
 ```
